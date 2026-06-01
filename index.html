@@ -649,15 +649,15 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
         <label><span data-es>Contraseña</span><span data-en>Password</span></label>
         <input type="password" value="••••••••">
       </div>
-      <button type="button" class="btn-primary" data-goto="app-dashboard"><span data-es>Ingresar al sistema</span><span data-en>Sign in</span></button>
+      <button type="button" class="btn-primary" onclick="setView('app-dashboard')"><span data-es>Ingresar al sistema</span><span data-en>Sign in</span></button>
     </div>
 
     <div class="login-switch">
       <span data-es>¿Eres cliente B2B? </span><span data-en>Are you a B2B client? </span>
-      <button type="button" data-goto="portal-cliente"><span data-es>Ingresa al portal</span><span data-en>Go to client portal</span></button>
+      <button type="button" onclick="setView('portal-cliente')"><span data-es>Ingresa al portal</span><span data-en>Go to client portal</span></button>
       <br><br>
       <span data-es>¿Necesitas registrar un paciente? </span><span data-en>Need to register a patient? </span>
-      <button type="button" data-goto="register"><span data-es>Formulario público</span><span data-en>Public form</span></button>
+      <button type="button" onclick="setView('register')"><span data-es>Formulario público</span><span data-en>Public form</span></button>
     </div>
   </div>
   <div class="login-foot">Sistema LIMS Xana · Demo Interactivo</div>
@@ -725,8 +725,8 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
       </div>
 
       <div class="register-submit">
-        <button type="button" class="btn-secondary" data-goto="login"><span data-es>Cancelar</span><span data-en>Cancel</span></button>
-        <button type="button" class="btn-primary" data-goto="login" onclick="alert('Paciente registrado · ID #PAT-2026-0287')"><span data-es>Registrar Paciente</span><span data-en>Register Patient</span></button>
+        <button type="button" class="btn-secondary" onclick="setView('login')"><span data-es>Cancelar</span><span data-en>Cancel</span></button>
+        <button type="button" class="btn-primary" onclick="setView('login')" onclick="alert('Paciente registrado · ID #PAT-2026-0287')"><span data-es>Registrar Paciente</span><span data-en>Register Patient</span></button>
       </div>
     </div>
   </div>
@@ -751,19 +751,19 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 
     <div class="sidebar-section"><span data-es>Operación</span><span data-en>Operation</span></div>
     <nav class="sidebar-nav">
-      <button class="sidebar-link" data-app-section="dashboard" type="button" data-goto="app-dashboard">
+      <button class="sidebar-link" data-app-section="dashboard" type="button" onclick="setView('app-dashboard')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
         <span data-es>Dashboard</span><span data-en>Dashboard</span>
       </button>
-      <button class="sidebar-link" data-app-section="pacientes" type="button" data-goto="app-pacientes">
+      <button class="sidebar-link" data-app-section="pacientes" type="button" onclick="setView('app-pacientes')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
         <span data-es>Pacientes</span><span data-en>Patients</span>
       </button>
-      <button class="sidebar-link" data-app-section="resultado" type="button" data-goto="app-resultado">
+      <button class="sidebar-link" data-app-section="resultado" type="button" onclick="setView('app-resultado')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
         <span data-es>Resultados</span><span data-en>Results</span>
       </button>
-      <button class="sidebar-link" data-app-section="correos" type="button" data-goto="app-correos">
+      <button class="sidebar-link" data-app-section="correos" type="button" onclick="setView('app-correos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span data-es>Correos</span><span data-en>Emails</span>
       </button>
@@ -771,7 +771,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 
     <div class="sidebar-section"><span data-es>Administración</span><span data-en>Admin</span></div>
     <nav class="sidebar-nav">
-      <button class="sidebar-link" data-app-section="clientes" type="button" data-goto="app-clientes">
+      <button class="sidebar-link" data-app-section="clientes" type="button" onclick="setView('app-clientes')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="9" cy="17" r="1" fill="currentColor"/></svg>
         <span data-es>Clientes B2B</span><span data-en>B2B Clients</span>
       </button>
@@ -787,7 +787,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
         <div class="sidebar-foot-name">María Vega</div>
         <div class="sidebar-foot-role"><span data-es>Admin</span><span data-en>Admin</span></div>
       </div>
-      <button type="button" data-goto="login" title="Salir">
+      <button type="button" onclick="setView('login')" title="Salir">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
       </button>
     </div>
@@ -828,7 +828,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
         <div class="sidebar-foot-name">Dra. Rosa Méndez</div>
         <div class="sidebar-foot-role">Clínica Rosa</div>
       </div>
-      <button type="button" data-goto="login" title="Salir">
+      <button type="button" onclick="setView('login')" title="Salir">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
       </button>
     </div>
@@ -1007,7 +1007,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
             </tr>
           </thead>
           <tbody>
-            <tr class="clickable" data-goto="app-paciente-detalle">
+            <tr class="clickable" onclick="setView('app-paciente-detalle')">
               <td><div class="pat-name">Laura María González R.</div></td>
               <td><div class="pat-id">#PAT-2026-0287</div></td>
               <td>Clínica Rosa</td>
@@ -1062,7 +1062,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 
     <!-- =========== PACIENTE DETALLE =========== -->
     <section class="app-section app-paciente-detalle">
-      <button class="btn-secondary" type="button" data-goto="app-pacientes" style="margin-bottom:18px;width:auto;padding:0 18px"><span data-es>← Volver a la lista</span><span data-en>← Back to list</span></button>
+      <button class="btn-secondary" type="button" onclick="setView('app-pacientes')" style="margin-bottom:18px;width:auto;padding:0 18px"><span data-es>← Volver a la lista</span><span data-en>← Back to list</span></button>
 
       <div class="detail-card">
         <div class="detail-head">
@@ -1076,7 +1076,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
               <span><span data-es>Registrado</span><span data-en>Registered</span><strong>01/06/2026</strong></span>
             </div>
           </div>
-          <button class="btn-action" type="button" data-goto="app-resultado">
+          <button class="btn-action" type="button" onclick="setView('app-resultado')">
             <span data-es>Capturar Resultado</span><span data-en>Capture Result</span>
           </button>
         </div>
@@ -1544,14 +1544,14 @@ Xana Laboratorio Clínico</textarea>
 </div>
 
 <script>
-function setLang(lang){
+window.setLang = function(lang){
   document.body.dataset.lang = lang;
   document.querySelectorAll('.app-lang button, .lang-toggle button').forEach(function(b){
     b.classList.toggle('active', b.dataset.langSet === lang);
   });
   try { localStorage.setItem('xana.lang', lang); } catch(e) {}
-}
-function setView(view){
+};
+window.setView = function(view){
   if(!view) return;
   document.body.dataset.view = view;
   document.querySelectorAll('.sidebar-link[data-app-section]').forEach(function(b){ b.classList.remove('active'); });
@@ -1563,16 +1563,10 @@ function setView(view){
   var scrollTarget = document.querySelector('.app-main');
   if(scrollTarget) scrollTarget.scrollTop = 0;
   window.scrollTo(0,0);
-}
+};
 
-// Event delegation · cualquier click en elementos con data-goto
+// Solo manejo de idioma con event delegation
 document.addEventListener('click', function(e){
-  var gotoEl = e.target.closest('[data-goto]');
-  if(gotoEl){
-    e.preventDefault();
-    setView(gotoEl.dataset.goto);
-    return;
-  }
   var langBtn = e.target.closest('[data-lang-set]');
   if(langBtn){ e.preventDefault(); setLang(langBtn.dataset.langSet); }
 });
