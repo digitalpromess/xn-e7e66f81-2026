@@ -36,7 +36,20 @@
   --success:#5DA978;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
-html,body{height:100%;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;overflow:hidden}
+html,body{height:100%;color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;overflow:hidden}
+html{background:var(--bg)}
+body{
+  background-color:var(--bg);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='126' viewBox='0 0 110 126'><g fill='none' stroke='%233A6FA8' stroke-width='0.7'><polygon points='27,3 55,3 69,27 55,51 27,51 13,27'/><polygon points='69,51 97,51 111,75 97,99 69,99 55,75'/><polygon points='27,51 55,51 69,75 55,99 27,99 13,75'/></g></svg>");
+  background-repeat:repeat;
+  background-size:110px 126px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:rgba(250,252,254,0.85);
+  z-index:0;
+}
+body > *{position:relative;z-index:1}
 
 /* === LANG === */
 body[data-lang="es"] [data-en]{display:none}
@@ -87,7 +100,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 .view-login{
   position:relative;width:100%;height:100vh;
   align-items:center;justify-content:center;
-  background:linear-gradient(140deg, #F5F9FC 0%, #E8F1F8 50%, #DDE9F2 100%);
+  background:linear-gradient(140deg, rgba(245,249,252,.55) 0%, rgba(232,241,248,.55) 50%, rgba(221,233,242,.55) 100%);
 }
 .login-card{
   background:var(--paper);padding:48px 44px;width:420px;max-width:90%;
@@ -232,7 +245,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 .sidebar-foot button:hover{color:#FFFFFF;background:rgba(255,255,255,.08)}
 
 /* === APP MAIN AREA === */
-.app-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.app-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:transparent}
 .app-header{
   background:var(--paper);padding:14px 28px;
   border-bottom:1px solid var(--line);
@@ -589,7 +602,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 /* === VIEW · REGISTRO PÚBLICO === */
 .view-register{
   position:relative;width:100%;min-height:100vh;
-  background:linear-gradient(140deg, #F5F9FC 0%, #E8F1F8 100%);
+  background:linear-gradient(140deg, rgba(245,249,252,.55) 0%, rgba(232,241,248,.55) 100%);
   align-items:center;justify-content:center;padding:40px 20px;
   overflow-y:auto;
 }
