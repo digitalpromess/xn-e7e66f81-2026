@@ -52,6 +52,7 @@ body[data-view="app-paciente-detalle"] .view-app,
 body[data-view="app-resultado"] .view-app,
 body[data-view="app-correos"] .view-app,
 body[data-view="app-clientes"] .view-app,
+body[data-view="app-archivos"] .view-app,
 body[data-view="portal-cliente"] .view-app{display:flex}
 
 /* App page · cambia el contenido principal */
@@ -61,6 +62,7 @@ body[data-view="app-paciente-detalle"] .app-paciente-detalle,
 body[data-view="app-resultado"] .app-resultado,
 body[data-view="app-correos"] .app-correos,
 body[data-view="app-clientes"] .app-clientes,
+body[data-view="app-archivos"] .app-archivos,
 body[data-view="portal-cliente"] .app-portal-cliente{display:flex}
 .app-main > section{display:none;flex-direction:column;flex:1;overflow-y:auto}
 
@@ -692,6 +694,32 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 .tpl-naranja .pdf-tpl-table th{background:#A14B24}
 .tpl-naranja .pdf-tpl-table td.high{color:#A14B24}
 
+/* === ARCHIVOS · folders + files === */
+.folder{padding:4px 0;color:var(--ink-2);cursor:pointer;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px}
+.folder:hover{color:var(--blue)}
+.folder.open{color:var(--blue-d);font-weight:600}
+.folder-icon{font-size:13px}
+.file-item{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;background:var(--bg-2);
+  transition:background .2s;cursor:pointer;
+}
+.file-item:hover{background:var(--blue-bg)}
+.file-icon{
+  width:38px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;letter-spacing:.04em;flex-shrink:0;
+}
+
+/* === EMAIL TEMPLATE TABS === */
+.email-tpl-tab{
+  background:none;border:none;padding:9px 16px;font-size:11.5px;letter-spacing:.04em;
+  font-weight:600;color:#6E7F94;cursor:pointer;white-space:nowrap;
+  border-radius:7px;transition:all .2s;
+}
+.email-tpl-tab:hover{color:#1F3552}
+.email-tpl-tab.active{background:#fff;color:#1F3552;box-shadow:0 2px 8px rgba(31,53,82,.08)}
+.email-tpl-page{display:none}
+.email-tpl-page.active{display:block}
+
 @media (max-width: 920px){
   .sidebar-admin,.sidebar-client{width:64px}
   .sidebar-brand-text,.sidebar-section,.sidebar-link span,.sidebar-foot-info{display:none}
@@ -851,6 +879,10 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
       <button class="sidebar-link" data-app-section="correos" type="button" onclick="setView('app-correos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span data-es>Correos</span><span data-en>Emails</span>
+      </button>
+      <button class="sidebar-link" data-app-section="archivos" type="button" onclick="setView('app-archivos')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        <span data-es>Archivos</span><span data-en>Files</span>
       </button>
     </nav>
 
@@ -1061,12 +1093,26 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
       <div class="section-head">
         <div>
           <h1 class="section-title"><span data-es>Base de <em>Pacientes</em></span><span data-en><em>Patient</em> Database</span></h1>
-          <div class="section-sub"><span data-es>1.247 pacientes registrados · búsqueda instantánea</span><span data-en>1,247 patients registered · instant search</span></div>
+          <div class="section-sub"><span data-es>1.247 pacientes registrados · búsqueda instantánea · sin duplicados</span><span data-en>1,247 patients registered · instant search · no duplicates</span></div>
         </div>
-        <button class="btn-action">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-          <span data-es>Nuevo Paciente</span><span data-en>New Patient</span>
-        </button>
+        <div style="display:flex;gap:8px">
+          <button class="btn-action" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <span data-es>Importar Excel</span><span data-en>Import Excel</span>
+          </button>
+          <button class="btn-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            <span data-es>Nuevo Paciente</span><span data-en>New Patient</span>
+          </button>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(90deg,var(--green-bg) 0%, var(--blue-bg) 100%);border-left:3px solid var(--green);padding:16px 20px;border-radius:8px;margin-bottom:18px;display:flex;gap:14px;align-items:center">
+        <div style="background:var(--paper);width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--green-d);font-size:18px;flex-shrink:0">✓</div>
+        <div style="flex-grow:1">
+          <div style="font-family:'DM Serif Display',serif;font-size:17px;color:var(--ink);font-weight:400;font-style:italic;margin-bottom:2px"><span data-es>Reemplaza el Excel actual</span><span data-en>Replaces current Excel</span></div>
+          <div style="font-size:12px;color:var(--ink-soft)"><span data-es>Validación automática · sin duplicados · búsqueda instantánea · carga automática desde el portal de clientes</span><span data-en>Auto validation · no duplicates · instant search · auto-loaded from client portal</span></div>
+        </div>
       </div>
 
       <div class="filter-row">
@@ -1462,39 +1508,89 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
     <section class="app-section app-correos">
       <div class="section-head">
         <div>
-          <h1 class="section-title"><span data-es>Envío de <em>Correos</em></span><span data-en><em>Email</em> Dispatch</span></h1>
-          <div class="section-sub"><span data-es>Plantilla automática según cliente · historial completo</span><span data-en>Auto-template by client · complete history</span></div>
+          <h1 class="section-title"><span data-es>Envío Automático de <em>Correos</em></span><span data-en><em>Automatic</em> Email Dispatch</span></h1>
+          <div class="section-sub"><span data-es>Plantilla configurada por cliente · historial completo con tracking de apertura</span><span data-en>Per-client templates · complete history with open tracking</span></div>
         </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:18px;display:flex;gap:18px;align-items:center">
+        <div style="background:var(--blue-bg);width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:22px;flex-shrink:0">⚡</div>
+        <div style="flex-grow:1">
+          <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink);font-weight:400;font-style:italic;margin-bottom:2px"><span data-es>Cada cliente tiene su propia plantilla de correo</span><span data-en>Each client has its own email template</span></div>
+          <div style="font-size:12px;color:var(--ink-soft)"><span data-es>El sistema escoge automáticamente la plantilla, el asunto y la firma según el cliente que refirió al paciente</span><span data-en>The system auto-selects template, subject and signature based on referring client</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0;margin-bottom:18px;background:#F2F4F7;padding:4px;border-radius:10px;border:1px solid var(--line);width:fit-content">
+        <button class="email-tpl-tab active" onclick="setEmailTpl(event,'rosa')">Clínica Rosa</button>
+        <button class="email-tpl-tab" onclick="setEmailTpl(event,'azul')">IPS Salud Total</button>
+        <button class="email-tpl-tab" onclick="setEmailTpl(event,'verde')">Centro Vita</button>
+        <button class="email-tpl-tab" onclick="setEmailTpl(event,'naranja')">Dr. Ramírez</button>
       </div>
 
       <div class="email-grid">
         <div class="email-compose">
-          <h3 class="h-detail" style="margin-bottom:18px"><span data-es>Componer · Listo para enviar</span><span data-en>Compose · Ready to send</span></h3>
-          <div class="field" style="margin-bottom:14px">
-            <label><span data-es>Para</span><span data-en>To</span></label>
-            <input type="email" value="laura.gonzalez@correo.com">
-          </div>
-          <div class="field" style="margin-bottom:14px">
-            <label><span data-es>Plantilla aplicada</span><span data-en>Applied Template</span></label>
-            <input type="text" value="Clínica Rosa · Resultados Generales" readonly style="color:var(--blue);font-weight:600">
-          </div>
-          <div class="field" style="margin-bottom:14px">
-            <label><span data-es>Asunto</span><span data-en>Subject</span></label>
-            <input type="text" value="Sus resultados de Hemograma están listos · Clínica Rosa">
-          </div>
-          <div class="field" style="margin-bottom:14px">
-            <label><span data-es>Mensaje</span><span data-en>Message</span></label>
-            <textarea rows="6">Estimada Laura,
+          <h3 class="h-detail" style="margin-bottom:18px"><span data-es>Vista previa del correo</span><span data-en>Email preview</span></h3>
 
-Adjuntamos sus resultados de Hemograma Completo procesados por Xana Laboratorio en convenio con Clínica Rosa.
-
-Cualquier inquietud sobre la interpretación, no dude en consultar con su médico tratante.
-
-Cordialmente,
-Xana Laboratorio Clínico</textarea>
+          <!-- PLANTILLA: CLÍNICA ROSA -->
+          <div class="email-tpl-page tpl-rosa active">
+            <div class="email-header" style="background:linear-gradient(135deg,#FCD8E5,#F89BB8);padding:18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px">
+              <div style="width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:18px;color:#A1244B;font-weight:600">CR</div>
+              <div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:#5C1A2C;font-weight:400">Clínica Rosa</div><div style="font-size:10px;color:#822640;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Resultados Médicos</div></div>
+            </div>
+            <div style="padding:18px;background:#FDF2F5;font-size:13px;color:#1F3552;line-height:1.6;border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px">
+              <p style="margin-bottom:10px"><strong>Estimada Laura,</strong></p>
+              <p style="margin-bottom:10px">Adjuntamos sus resultados de <strong>Hemograma Completo</strong> realizados a través de <strong>Clínica Rosa</strong> en convenio con Xana Laboratorio.</p>
+              <p style="margin-bottom:10px">Cualquier consulta sobre la interpretación, no dude en comunicarse con su médico tratante en Clínica Rosa.</p>
+              <p>Cordialmente,<br><span style="color:#A1244B;font-weight:600">Equipo Clínica Rosa</span></p>
+            </div>
           </div>
-          <div style="padding:10px;background:var(--green-bg);border-radius:6px;font-size:12px;color:var(--green-d);font-weight:500">
-            📎 Adjunto · Hemograma_Laura_Gonzalez_01062026.pdf
+
+          <!-- PLANTILLA: IPS SALUD TOTAL -->
+          <div class="email-tpl-page tpl-azul">
+            <div class="email-header" style="background:linear-gradient(135deg,#D8E5FC,#9BB8F8);padding:18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px">
+              <div style="width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:18px;color:#244BA1;font-weight:600">ST</div>
+              <div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:#1A2C5C;font-weight:400">IPS Salud Total</div><div style="font-size:10px;color:#26408F;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Medellín · Resultados</div></div>
+            </div>
+            <div style="padding:18px;background:#F2F5FD;font-size:13px;color:#1F3552;line-height:1.6;border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px">
+              <p style="margin-bottom:10px"><strong>Sr/a. Hernández:</strong></p>
+              <p style="margin-bottom:10px">Le informamos que sus resultados de <strong>Perfil Lipídico</strong> ya están disponibles a través del convenio entre IPS Salud Total y Xana Laboratorio.</p>
+              <p style="margin-bottom:10px">Para interpretación clínica, programe cita con su médico de IPS Salud Total a través de nuestra línea de atención.</p>
+              <p>Atentamente,<br><span style="color:#244BA1;font-weight:600">IPS Salud Total</span></p>
+            </div>
+          </div>
+
+          <!-- PLANTILLA: CENTRO MÉDICO VITA -->
+          <div class="email-tpl-page tpl-verde">
+            <div class="email-header" style="background:linear-gradient(135deg,#D8FCE5,#9BF8B8);padding:18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px">
+              <div style="width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:18px;color:#24A14B;font-weight:600">VT</div>
+              <div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:#1A4B2C;font-weight:400">Centro Médico Vita</div><div style="font-size:10px;color:#268F40;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Bogotá · Consultorios</div></div>
+            </div>
+            <div style="padding:18px;background:#F2FDF5;font-size:13px;color:#1F3552;line-height:1.6;border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px">
+              <p style="margin-bottom:10px"><strong>Hola Ana,</strong></p>
+              <p style="margin-bottom:10px">Tus resultados de <strong>Glicemia + HbA1c</strong> ya están disponibles. Centro Médico Vita y Xana Laboratorio trabajamos juntos para entregártelos lo más rápido posible.</p>
+              <p style="margin-bottom:10px">Te invitamos a agendar tu cita de control en nuestra app o llamando a recepción.</p>
+              <p>Un abrazo,<br><span style="color:#24A14B;font-weight:600">Centro Médico Vita</span></p>
+            </div>
+          </div>
+
+          <!-- PLANTILLA: DR. RAMÍREZ -->
+          <div class="email-tpl-page tpl-naranja">
+            <div class="email-header" style="background:linear-gradient(135deg,#FCE5D8,#F8B89B);padding:18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:12px">
+              <div style="width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:18px;color:#A14B24;font-weight:600">DR</div>
+              <div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:#5C2C1A;font-weight:400">Dr. Ramírez</div><div style="font-size:10px;color:#8F4026;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Consulta Privada</div></div>
+            </div>
+            <div style="padding:18px;background:#FDF5F2;font-size:13px;color:#1F3552;line-height:1.6;border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px">
+              <p style="margin-bottom:10px"><strong>Estimada Sra. Castaño,</strong></p>
+              <p style="margin-bottom:10px">Adjunto encontrará los resultados de <strong>Uroanálisis</strong> solicitados durante su consulta del pasado 31 de mayo.</p>
+              <p style="margin-bottom:10px">Le recomiendo agendar cita de revisión para análisis conjunto. Mi secretaria está disponible al teléfono indicado.</p>
+              <p>Cordialmente,<br><span style="color:#A14B24;font-weight:600">Dr. Carlos Ramírez · Medicina Interna</span></p>
+            </div>
+          </div>
+
+          <div style="padding:12px 14px;background:var(--green-bg);border-radius:6px;font-size:12.5px;color:var(--green-d);font-weight:500;margin-top:14px;display:flex;align-items:center;gap:8px">
+            <span>📎</span>
+            <span><span data-es>Adjunto automático</span><span data-en>Auto-attached</span> · <strong>Hemograma_Laura_Gonzalez_01062026.pdf</strong></span>
           </div>
           <div class="result-actions" style="margin-top:18px;padding-top:18px">
             <button class="btn-secondary"><span data-es>Programar Envío</span><span data-en>Schedule</span></button>
@@ -1549,6 +1645,113 @@ Xana Laboratorio Clínico</textarea>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== ARCHIVOS =========== -->
+    <section class="app-section app-archivos">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Almacenamiento <em>Organizado</em></span><span data-en><em>Organized</em> Storage</span></h1>
+          <div class="section-sub"><span data-es>Cada PDF se nombra y se archiva automáticamente · cero búsquedas manuales</span><span data-en>Each PDF is auto-named and filed · zero manual searches</span></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-action" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span data-es>Descargar todo</span><span data-en>Download all</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Convención de nombres -->
+      <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:18px;display:flex;gap:18px;align-items:center">
+        <div style="background:var(--blue-bg);width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:22px;flex-shrink:0">📁</div>
+        <div style="flex-grow:1">
+          <div style="font-size:11px;color:var(--ink-soft);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:6px"><span data-es>Convención de nombres automática</span><span data-en>Auto naming convention</span></div>
+          <div style="font-family:'Menlo','SF Mono',monospace;font-size:13px;color:var(--blue-d);font-weight:600;background:var(--bg-2);padding:8px 12px;border-radius:5px">AAAA-MM-DD_Cliente_PacienteApellido_Examen.pdf</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:18px">
+
+        <!-- Estructura de carpetas -->
+        <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px">
+          <div style="font-size:11px;color:var(--ink-soft);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:14px">📂 <span data-es>Estructura</span><span data-en>Structure</span></div>
+          <div style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-2)">
+            <div class="folder open">
+              <span class="folder-icon">📁</span> 2026
+              <div style="margin-left:18px;margin-top:6px">
+                <div class="folder open">
+                  <span class="folder-icon">📁</span> 06-Junio <span style="color:var(--blue);font-weight:600;font-size:11px">· activa</span>
+                  <div style="margin-left:18px;margin-top:6px">
+                    <div class="folder"><span class="folder-icon">📁</span> Clinica-Rosa <span style="color:var(--muted);font-size:11px">(3)</span></div>
+                    <div class="folder"><span class="folder-icon">📁</span> IPS-Salud-Total <span style="color:var(--muted);font-size:11px">(2)</span></div>
+                    <div class="folder"><span class="folder-icon">📁</span> Centro-Vita <span style="color:var(--muted);font-size:11px">(1)</span></div>
+                    <div class="folder"><span class="folder-icon">📁</span> Dr-Ramirez <span style="color:var(--muted);font-size:11px">(1)</span></div>
+                  </div>
+                </div>
+                <div class="folder"><span class="folder-icon">📁</span> 05-Mayo <span style="color:var(--muted);font-size:11px">(42)</span></div>
+                <div class="folder"><span class="folder-icon">📁</span> 04-Abril <span style="color:var(--muted);font-size:11px">(38)</span></div>
+                <div class="folder"><span class="folder-icon">📁</span> 03-Marzo <span style="color:var(--muted);font-size:11px">(45)</span></div>
+              </div>
+            </div>
+            <div class="folder" style="margin-top:6px"><span class="folder-icon">📁</span> 2025 <span style="color:var(--muted);font-size:11px">(412)</span></div>
+          </div>
+        </div>
+
+        <!-- Lista de archivos -->
+        <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)">
+            <div style="font-size:13px;color:var(--ink-2)"><span data-es>📍 2026 › Junio › </span><span data-en>📍 2026 › June › </span><strong style="color:var(--blue-d)">Clínica Rosa</strong></div>
+            <div class="app-search" style="max-width:220px;position:relative">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--muted)"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input type="text" placeholder="Buscar..." style="height:34px;padding:0 12px 0 32px;background:var(--bg-2);border:1px solid var(--line);border-radius:5px;font-size:12px;width:100%">
+            </div>
+          </div>
+          <div class="file-list" style="display:flex;flex-direction:column;gap:8px">
+            <div class="file-item">
+              <div class="file-icon" style="background:#FDF2F5;color:#A1244B">PDF</div>
+              <div style="flex-grow:1;min-width:0">
+                <div style="font-family:'Menlo','SF Mono',monospace;font-size:11.5px;color:var(--ink);font-weight:600">2026-06-01_Clinica-Rosa_Gonzalez_Hemograma.pdf</div>
+                <div style="font-size:11px;color:var(--ink-soft);margin-top:2px"><span data-es>Laura González · 01 jun 2026 · 9:42 AM · 248 KB</span><span data-en>Laura González · Jun 1 2026 · 9:42 AM · 248 KB</span></div>
+              </div>
+              <span class="badge sent">✓ <span data-es>Enviado</span><span data-en>Sent</span></span>
+            </div>
+            <div class="file-item">
+              <div class="file-icon" style="background:#FDF2F5;color:#A1244B">PDF</div>
+              <div style="flex-grow:1;min-width:0">
+                <div style="font-family:'Menlo','SF Mono',monospace;font-size:11.5px;color:var(--ink);font-weight:600">2026-05-31_Clinica-Rosa_Ruiz_TSH.pdf</div>
+                <div style="font-size:11px;color:var(--ink-soft);margin-top:2px">Mateo Ruiz · 31 may 2026 · 14:18 PM · 192 KB</div>
+              </div>
+              <span class="badge sent">✓ <span data-es>Enviado</span><span data-en>Sent</span></span>
+            </div>
+            <div class="file-item">
+              <div class="file-icon" style="background:#FDF2F5;color:#A1244B">PDF</div>
+              <div style="flex-grow:1;min-width:0">
+                <div style="font-family:'Menlo','SF Mono',monospace;font-size:11.5px;color:var(--ink);font-weight:600">2026-05-29_Clinica-Rosa_Mejia_PerfilLipidico.pdf</div>
+                <div style="font-size:11px;color:var(--ink-soft);margin-top:2px">Carolina Mejía · 29 may 2026 · 11:30 AM · 276 KB</div>
+              </div>
+              <span class="badge process"><span data-es>En proceso</span><span data-en>In process</span></span>
+            </div>
+            <div class="file-item">
+              <div class="file-icon" style="background:#FDF2F5;color:#A1244B">PDF</div>
+              <div style="flex-grow:1;min-width:0">
+                <div style="font-family:'Menlo','SF Mono',monospace;font-size:11.5px;color:var(--ink);font-weight:600">2026-05-15_Clinica-Rosa_Gonzalez_PerfilLipidico.pdf</div>
+                <div style="font-size:11px;color:var(--ink-soft);margin-top:2px">Laura González · 15 may 2026 · 10:05 AM · 218 KB</div>
+              </div>
+              <span class="badge sent">✓ <span data-es>Enviado</span><span data-en>Sent</span></span>
+            </div>
+            <div class="file-item">
+              <div class="file-icon" style="background:#FDF2F5;color:#A1244B">PDF</div>
+              <div style="flex-grow:1;min-width:0">
+                <div style="font-family:'Menlo','SF Mono',monospace;font-size:11.5px;color:var(--ink);font-weight:600">2026-02-02_Clinica-Rosa_Gonzalez_TSH.pdf</div>
+                <div style="font-size:11px;color:var(--ink-soft);margin-top:2px">Laura González · 02 feb 2026 · 13:12 PM · 184 KB</div>
+              </div>
+              <span class="badge sent">✓ <span data-es>Enviado</span><span data-en>Sent</span></span>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-soft);text-align:center"><span data-es>5 de 342 archivos · backup automático en la nube cada noche</span><span data-en>5 of 342 files · auto cloud backup every night</span></div>
         </div>
       </div>
     </section>
@@ -1743,6 +1946,15 @@ function setTpl(e, t){
   var pages = document.querySelectorAll('.tpl-page');
   for(var j=0;j<pages.length;j++){ pages[j].classList.remove('active'); }
   var sel = document.querySelector('.tpl-'+t);
+  if(sel) sel.classList.add('active');
+}
+function setEmailTpl(e, t){
+  var tabs = document.querySelectorAll('.email-tpl-tab');
+  for(var i=0;i<tabs.length;i++){ tabs[i].classList.remove('active'); }
+  e.target.classList.add('active');
+  var pages = document.querySelectorAll('.email-tpl-page');
+  for(var j=0;j<pages.length;j++){ pages[j].classList.remove('active'); }
+  var sel = document.querySelector('.email-tpl-page.tpl-'+t);
   if(sel) sel.classList.add('active');
 }
 </script>
