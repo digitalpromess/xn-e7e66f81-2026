@@ -55,6 +55,7 @@ body[data-view="app-correos"] .view-app,
 body[data-view="app-clientes"] .view-app,
 body[data-view="app-nuevo-cliente"] .view-app,
 body[data-view="app-archivos"] .view-app,
+body[data-view="app-config"] .view-app,
 body[data-view="portal-cliente"] .view-app{display:flex}
 
 /* App page · cambia el contenido principal */
@@ -67,6 +68,7 @@ body[data-view="app-correos"] .app-correos,
 body[data-view="app-clientes"] .app-clientes,
 body[data-view="app-nuevo-cliente"] .app-nuevo-cliente,
 body[data-view="app-archivos"] .app-archivos,
+body[data-view="app-config"] .app-config,
 body[data-view="portal-cliente"] .app-portal-cliente{display:flex}
 .app-main > section{display:none;flex-direction:column;flex:1;overflow-y:auto}
 
@@ -740,6 +742,27 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
 .mode-page{display:none}
 .mode-page.active{display:block}
 
+/* === CONFIGURACIÓN === */
+.cfg-wrap{display:grid;grid-template-columns:260px 1fr;gap:18px}
+.cfg-side{display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;height:fit-content;position:sticky;top:0}
+.cfg-tab{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;background:none;border:none;
+  color:var(--ink-2);font:inherit;font-size:13px;cursor:pointer;
+  text-align:left;border-radius:6px;font-weight:500;transition:all .2s;
+}
+.cfg-tab:hover{background:var(--bg-2);color:var(--blue-d)}
+.cfg-tab.active{background:var(--blue);color:#fff;font-weight:600}
+.cfg-ic{font-size:15px;flex-shrink:0}
+.cfg-main{min-width:0}
+.cfg-page{display:none}
+.cfg-page.active{display:block}
+.cfg-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink);font-weight:400;font-style:italic;margin-bottom:6px;letter-spacing:.005em}
+.cfg-lead{font-size:13px;color:var(--ink-soft);margin-bottom:18px;line-height:1.6;max-width:680px}
+.cfg-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px;margin-bottom:14px}
+.cfg-h4{font-size:11px;letter-spacing:.28em;color:var(--blue);text-transform:uppercase;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.cfg-actions{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);text-align:right}
+
 @media (max-width: 920px){
   .sidebar-admin,.sidebar-client{width:64px}
   .sidebar-brand-text,.sidebar-section,.sidebar-link span,.sidebar-foot-info{display:none}
@@ -912,7 +935,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="9" cy="17" r="1" fill="currentColor"/></svg>
         <span data-es>Clientes B2B</span><span data-en>B2B Clients</span>
       </button>
-      <button class="sidebar-link">
+      <button class="sidebar-link" data-app-section="config" type="button" onclick="setView('app-config')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01A1.65 1.65 0 009 3.6V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
         <span data-es>Configuración</span><span data-en>Settings</span>
       </button>
@@ -1955,6 +1978,333 @@ Equipo {Cliente}</textarea></div>
       </div>
     </section>
 
+    <!-- =========== CONFIGURACIÓN =========== -->
+    <section class="app-section app-config">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Configuración del <em>Sistema</em></span><span data-en>System <em>Settings</em></span></h1>
+          <div class="section-sub"><span data-es>Personaliza datos de Xana, gestiona usuarios, exámenes, integraciones y respaldos</span><span data-en>Customize Xana data, manage users, tests, integrations and backups</span></div>
+        </div>
+      </div>
+
+      <div class="cfg-wrap">
+        <!-- Sidebar interno -->
+        <aside class="cfg-side">
+          <button class="cfg-tab active" onclick="setCfg(event,'lab')"><span class="cfg-ic">🏥</span><span data-es>Datos del Laboratorio</span><span data-en>Lab Data</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'users')"><span class="cfg-ic">👥</span><span data-es>Usuarios y Permisos</span><span data-en>Users and Permissions</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'tests')"><span class="cfg-ic">🧪</span><span data-es>Catálogo de Exámenes</span><span data-en>Test Catalog</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'tpls')"><span class="cfg-ic">🎨</span><span data-es>Plantillas Maestras</span><span data-en>Master Templates</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'int')"><span class="cfg-ic">🔌</span><span data-es>Integraciones</span><span data-en>Integrations</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'notif')"><span class="cfg-ic">🔔</span><span data-es>Notificaciones</span><span data-en>Notifications</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'audit')"><span class="cfg-ic">🛡️</span><span data-es>Auditoría y Logs</span><span data-en>Audit and Logs</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'backup')"><span class="cfg-ic">💾</span><span data-es>Backup y Respaldos</span><span data-en>Backup</span></button>
+          <button class="cfg-tab" onclick="setCfg(event,'pref')"><span class="cfg-ic">⚙️</span><span data-es>Preferencias</span><span data-en>Preferences</span></button>
+        </aside>
+
+        <!-- Contenido derecha -->
+        <div class="cfg-main">
+
+          <!-- DATOS DEL LAB -->
+          <div class="cfg-page cfg-lab active">
+            <h3 class="cfg-title">🏥 <span data-es>Datos del Laboratorio Xana</span><span data-en>Xana Lab Data</span></h3>
+            <p class="cfg-lead"><span data-es>Esta información aparece en TODOS los PDFs generados como sello del laboratorio · debajo del logo del cliente.</span><span data-en>This info appears on EVERY generated PDF as the lab seal · under the client logo.</span></p>
+
+            <div class="cfg-card">
+              <h4 class="cfg-h4"><span data-es>Identidad del laboratorio</span><span data-en>Lab Identity</span></h4>
+              <div style="display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:flex-start">
+                <div>
+                  <div style="font-size:10.5px;color:var(--ink-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:10px"><span data-es>Logo</span><span data-en>Logo</span></div>
+                  <div style="width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FFF,#6E9CCC);display:flex;align-items:center;justify-content:center;font-size:48px;color:#A8C854;font-weight:bold;font-style:italic;box-shadow:0 4px 14px rgba(58,111,168,.18);margin-bottom:10px">x</div>
+                  <button class="btn-secondary" style="width:100%;height:34px;font-size:11px"><span data-es>Cambiar logo</span><span data-en>Change logo</span></button>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                  <div class="field"><label><span data-es>Nombre comercial</span><span data-en>Trade name</span></label><input type="text" value="Xana Laboratorio Clínico"></div>
+                  <div class="field"><label><span data-es>Razón social</span><span data-en>Legal name</span></label><input type="text" value="Xana Lab S.A.S."></div>
+                  <div class="field"><label>NIT</label><input type="text" value="900.123.456-7"></div>
+                  <div class="field"><label><span data-es>Registro INVIMA</span><span data-en>INVIMA Reg.</span></label><input type="text" value="2026-LB-0042"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cfg-card">
+              <h4 class="cfg-h4"><span data-es>Sede principal</span><span data-en>Main location</span></h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="field"><label><span data-es>Dirección</span><span data-en>Address</span></label><input type="text" value="Calle 100 # 15-23, Of. 502"></div>
+                <div class="field"><label><span data-es>Ciudad</span><span data-en>City</span></label><input type="text" value="Bogotá D.C."></div>
+                <div class="field"><label><span data-es>Teléfono</span><span data-en>Phone</span></label><input type="tel" value="+57 1 555 8800"></div>
+                <div class="field"><label><span data-es>Correo principal</span><span data-en>Main email</span></label><input type="email" value="contacto@xanalab.co"></div>
+                <div class="field"><label><span data-es>WhatsApp</span><span data-en>WhatsApp</span></label><input type="tel" value="+57 311 555 8800"></div>
+                <div class="field"><label><span data-es>Sitio web</span><span data-en>Website</span></label><input type="url" value="www.xanalab.co"></div>
+              </div>
+            </div>
+
+            <div class="cfg-card">
+              <h4 class="cfg-h4"><span data-es>Director técnico responsable</span><span data-en>Technical Director</span></h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="field"><label><span data-es>Nombre</span><span data-en>Name</span></label><input type="text" value="Dra. Ana Quintero"></div>
+                <div class="field"><label><span data-es>Registro profesional</span><span data-en>Professional ID</span></label><input type="text" value="RM-25.418"></div>
+              </div>
+            </div>
+
+            <div class="cfg-actions"><button class="btn-primary"><span data-es>Guardar cambios</span><span data-en>Save changes</span></button></div>
+          </div>
+
+          <!-- USUARIOS Y PERMISOS -->
+          <div class="cfg-page cfg-users">
+            <h3 class="cfg-title">👥 <span data-es>Usuarios y Permisos</span><span data-en>Users and Permissions</span></h3>
+            <p class="cfg-lead"><span data-es>Equipo interno de Xana que tiene acceso al sistema. Cada usuario tiene un rol que define qué puede hacer.</span><span data-en>Internal Xana team with system access. Each user has a role defining what they can do.</span></p>
+
+            <div class="cfg-card" style="padding:0">
+              <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+                <div style="font-size:12px;color:var(--ink-soft)"><span data-es>4 usuarios activos</span><span data-en>4 active users</span></div>
+                <button class="btn-action" style="height:32px;padding:0 14px;font-size:11px">+ <span data-es>Nuevo Usuario</span><span data-en>New User</span></button>
+              </div>
+              <table class="table" style="font-size:12.5px">
+                <thead><tr>
+                  <th><span data-es>Usuario</span><span data-en>User</span></th>
+                  <th>Email</th>
+                  <th><span data-es>Rol</span><span data-en>Role</span></th>
+                  <th><span data-es>Último acceso</span><span data-en>Last access</span></th>
+                  <th></th>
+                </tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">A</div><strong style="color:var(--ink)">Admin Xana</strong></div></td>
+                    <td>admin@xanalab.co</td>
+                    <td><span class="badge done">Admin</span></td>
+                    <td>Hoy · 9:42 AM</td>
+                    <td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:var(--green-d);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">A</div><strong style="color:var(--ink)">Dra. Ana Quintero</strong></div></td>
+                    <td>ana.q@xanalab.co</td>
+                    <td><span class="badge process"><span data-es>Director Técnico</span><span data-en>Tech Director</span></span></td>
+                    <td>Hoy · 8:15 AM</td>
+                    <td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">J</div><strong style="color:var(--ink)">Juan Pérez</strong></div></td>
+                    <td>juan.p@xanalab.co</td>
+                    <td><span class="badge sent"><span data-es>Técnico</span><span data-en>Technician</span></span></td>
+                    <td>Ayer · 5:30 PM</td>
+                    <td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:var(--muted);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">L</div><strong style="color:var(--ink)">Laura Rodríguez</strong></div></td>
+                    <td>laura.r@xanalab.co</td>
+                    <td><span class="badge pending"><span data-es>Solo Lectura</span><span data-en>Read Only</span></span></td>
+                    <td>Hace 3 días</td>
+                    <td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="cfg-card">
+              <h4 class="cfg-h4"><span data-es>Roles disponibles</span><span data-en>Available roles</span></h4>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px">
+                <div style="padding:12px;background:var(--bg-2);border-radius:6px"><div style="font-weight:700;color:var(--ink);margin-bottom:4px">Admin</div><div style="color:var(--ink-soft);font-size:11px"><span data-es>Acceso total al sistema</span><span data-en>Full system access</span></div></div>
+                <div style="padding:12px;background:var(--bg-2);border-radius:6px"><div style="font-weight:700;color:var(--ink);margin-bottom:4px"><span data-es>Director Técnico</span><span data-en>Tech Director</span></div><div style="color:var(--ink-soft);font-size:11px"><span data-es>Aprueba resultados</span><span data-en>Approves results</span></div></div>
+                <div style="padding:12px;background:var(--bg-2);border-radius:6px"><div style="font-weight:700;color:var(--ink);margin-bottom:4px"><span data-es>Técnico</span><span data-en>Technician</span></div><div style="color:var(--ink-soft);font-size:11px"><span data-es>Captura resultados</span><span data-en>Enters results</span></div></div>
+                <div style="padding:12px;background:var(--bg-2);border-radius:6px"><div style="font-weight:700;color:var(--ink);margin-bottom:4px"><span data-es>Solo Lectura</span><span data-en>Read Only</span></div><div style="color:var(--ink-soft);font-size:11px"><span data-es>Consulta sin editar</span><span data-en>View only</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CATÁLOGO DE EXÁMENES -->
+          <div class="cfg-page cfg-tests">
+            <h3 class="cfg-title">🧪 <span data-es>Catálogo de Exámenes</span><span data-en>Test Catalog</span></h3>
+            <p class="cfg-lead"><span data-es>Tipos de examen que Xana procesa. Cada uno con sus parámetros, unidades y rangos de referencia.</span><span data-en>Test types Xana processes. Each with parameters, units and reference ranges.</span></p>
+
+            <div class="cfg-card" style="padding:0">
+              <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+                <div style="font-size:12px;color:var(--ink-soft)"><span data-es>12 exámenes activos</span><span data-en>12 active tests</span></div>
+                <button class="btn-action" style="height:32px;padding:0 14px;font-size:11px">+ <span data-es>Nuevo Examen</span><span data-en>New Test</span></button>
+              </div>
+              <table class="table" style="font-size:12.5px">
+                <thead><tr><th><span data-es>Nombre</span><span data-en>Name</span></th><th><span data-es>Categoría</span><span data-en>Category</span></th><th><span data-es>Parámetros</span><span data-en>Parameters</span></th><th><span data-es>Tiempo</span><span data-en>Time</span></th><th></th></tr></thead>
+                <tbody>
+                  <tr><td><strong style="color:var(--ink)">Hemograma Completo</strong></td><td>Hematología</td><td>10 parámetros</td><td>4h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                  <tr><td><strong style="color:var(--ink)">Perfil Lipídico</strong></td><td>Bioquímica</td><td>4 parámetros</td><td>6h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                  <tr><td><strong style="color:var(--ink)">Glicemia + HbA1c</strong></td><td>Bioquímica</td><td>2 parámetros</td><td>4h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                  <tr><td><strong style="color:var(--ink)">TSH · Función Tiroidea</strong></td><td>Hormonal</td><td>3 parámetros</td><td>8h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                  <tr><td><strong style="color:var(--ink)">Uroanálisis</strong></td><td>Microbiología</td><td>8 parámetros</td><td>2h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                  <tr><td><strong style="color:var(--ink)">Química Sanguínea</strong></td><td>Bioquímica</td><td>14 parámetros</td><td>6h</td><td><button class="card-action"><span data-es>Editar</span><span data-en>Edit</span></button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- PLANTILLAS MAESTRAS -->
+          <div class="cfg-page cfg-tpls">
+            <h3 class="cfg-title">🎨 <span data-es>Plantillas Maestras</span><span data-en>Master Templates</span></h3>
+            <p class="cfg-lead"><span data-es>Biblioteca base de plantillas (PDF + correo). En cada cliente B2B se asigna una.</span><span data-en>Base library of templates (PDF + email). Each B2B client uses one.</span></p>
+
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+              <div class="cfg-card" style="margin:0">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:36px;height:36px;background:var(--blue-bg);color:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px">📄</div><strong style="color:var(--ink);font-size:14px">Clásico Profesional</strong></div>
+                <div style="font-size:12px;color:var(--ink-soft);margin-bottom:10px"><span data-es>Diseño tradicional · usado por 3 clientes</span><span data-en>Traditional · used by 3 clients</span></div>
+                <button class="btn-secondary" style="height:32px;font-size:11px;width:100%"><span data-es>Editar plantilla</span><span data-en>Edit</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:36px;height:36px;background:var(--green-bg);color:var(--green-d);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px">✨</div><strong style="color:var(--ink);font-size:14px">Moderno Minimalista</strong></div>
+                <div style="font-size:12px;color:var(--ink-soft);margin-bottom:10px"><span data-es>Editorial limpio · usado por 2 clientes</span><span data-en>Clean editorial · used by 2 clients</span></div>
+                <button class="btn-secondary" style="height:32px;font-size:11px;width:100%"><span data-es>Editar plantilla</span><span data-en>Edit</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:36px;height:36px;background:#FBEFCB;color:#9C7910;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px">🏥</div><strong style="color:var(--ink);font-size:14px"><span data-es>Médico Estándar</span><span data-en>Medical Standard</span></strong></div>
+                <div style="font-size:12px;color:var(--ink-soft);margin-bottom:10px"><span data-es>Layout clínico · usado por 1 cliente</span><span data-en>Clinical layout · used by 1 client</span></div>
+                <button class="btn-secondary" style="height:32px;font-size:11px;width:100%"><span data-es>Editar plantilla</span><span data-en>Edit</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0;border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:140px">
+                <div style="font-size:32px;color:var(--muted);margin-bottom:6px">+</div>
+                <strong style="color:var(--ink-soft);font-size:13px"><span data-es>Crear plantilla nueva</span><span data-en>Create new template</span></strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTEGRACIONES -->
+          <div class="cfg-page cfg-int">
+            <h3 class="cfg-title">🔌 <span data-es>Integraciones</span><span data-en>Integrations</span></h3>
+            <p class="cfg-lead"><span data-es>Servicios externos conectados al sistema. Cambia API keys y monitorea estado.</span><span data-en>External services connected. Change API keys and monitor status.</span></p>
+
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div class="cfg-card" style="margin:0;display:flex;align-items:center;gap:16px">
+                <div style="width:46px;height:46px;background:#1A82E2;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700">✉</div>
+                <div style="flex-grow:1"><strong style="color:var(--ink)">SendGrid</strong><div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px"><span data-es>Envío de correos · 21 enviados hoy</span><span data-en>Email delivery · 21 sent today</span></div></div>
+                <span class="badge sent">✓ Conectado</span>
+                <button class="card-action"><span data-es>Configurar</span><span data-en>Configure</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0;display:flex;align-items:center;gap:16px">
+                <div style="width:46px;height:46px;background:#FF9900;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700">S3</div>
+                <div style="flex-grow:1"><strong style="color:var(--ink)">AWS S3</strong><div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px"><span data-es>Almacenamiento PDFs · 2.3 GB usados</span><span data-en>PDF storage · 2.3 GB used</span></div></div>
+                <span class="badge sent">✓ Conectado</span>
+                <button class="card-action"><span data-es>Configurar</span><span data-en>Configure</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0;display:flex;align-items:center;gap:16px">
+                <div style="width:46px;height:46px;background:#25D366;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700">💬</div>
+                <div style="flex-grow:1"><strong style="color:var(--ink)">WhatsApp Business</strong><div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px"><span data-es>Notificaciones automáticas a pacientes</span><span data-en>Auto notifications to patients</span></div></div>
+                <span class="badge pending"><span data-es>Por configurar</span><span data-en>Setup pending</span></span>
+                <button class="card-action"><span data-es>Conectar</span><span data-en>Connect</span></button>
+              </div>
+              <div class="cfg-card" style="margin:0;display:flex;align-items:center;gap:16px">
+                <div style="width:46px;height:46px;background:#635BFF;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700">S</div>
+                <div style="flex-grow:1"><strong style="color:var(--ink)">Stripe / ePayco</strong><div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px"><span data-es>Pagos online · opcional</span><span data-en>Online payments · optional</span></div></div>
+                <span class="badge pending"><span data-es>Inactivo</span><span data-en>Inactive</span></span>
+                <button class="card-action"><span data-es>Conectar</span><span data-en>Connect</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- NOTIFICACIONES -->
+          <div class="cfg-page cfg-notif">
+            <h3 class="cfg-title">🔔 <span data-es>Notificaciones</span><span data-en>Notifications</span></h3>
+            <p class="cfg-lead"><span data-es>Configura qué eventos disparan alertas y a quién llegan.</span><span data-en>Set up which events trigger alerts and who receives them.</span></p>
+
+            <div class="cfg-card" style="padding:0">
+              <table class="table" style="font-size:12.5px">
+                <thead><tr><th><span data-es>Evento</span><span data-en>Event</span></th><th>Email</th><th>WhatsApp</th><th><span data-es>Push</span><span data-en>Push</span></th></tr></thead>
+                <tbody>
+                  <tr><td><strong style="color:var(--ink)"><span data-es>Nuevo paciente registrado</span><span data-en>New patient registered</span></strong><div style="font-size:11px;color:var(--ink-soft)"><span data-es>Cuando un cliente registra desde el portal</span><span data-en>When a client registers from portal</span></div></td><td>✓</td><td>✓</td><td>✓</td></tr>
+                  <tr><td><strong style="color:var(--ink)"><span data-es>Resultado fuera de rango</span><span data-en>Out-of-range result</span></strong><div style="font-size:11px;color:var(--ink-soft)"><span data-es>Alerta al director técnico</span><span data-en>Alerts tech director</span></div></td><td>✓</td><td>✓</td><td>✗</td></tr>
+                  <tr><td><strong style="color:var(--ink)"><span data-es>Correo no entregado</span><span data-en>Email not delivered</span></strong><div style="font-size:11px;color:var(--ink-soft)"><span data-es>Si rebota o falla</span><span data-en>If bounce or fail</span></div></td><td>✓</td><td>✗</td><td>✓</td></tr>
+                  <tr><td><strong style="color:var(--ink)"><span data-es>Resumen diario</span><span data-en>Daily summary</span></strong><div style="font-size:11px;color:var(--ink-soft)"><span data-es>Cada noche a las 8 PM</span><span data-en>Every night at 8 PM</span></div></td><td>✓</td><td>✗</td><td>✗</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- AUDITORÍA -->
+          <div class="cfg-page cfg-audit">
+            <h3 class="cfg-title">🛡️ <span data-es>Auditoría y Logs</span><span data-en>Audit and Logs</span></h3>
+            <p class="cfg-lead"><span data-es>Registro de cada acción del sistema · cumple con Ley 1581 de datos personales.</span><span data-en>System action log · complies with Colombian data protection law.</span></p>
+
+            <div class="cfg-card" style="padding:0">
+              <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+                <div style="font-size:12px;color:var(--ink-soft)"><span data-es>1.842 eventos registrados · últimos 30 días</span><span data-en>1,842 logged events · last 30 days</span></div>
+                <button class="btn-secondary" style="height:32px;padding:0 14px;font-size:11px"><span data-es>Exportar CSV</span><span data-en>Export CSV</span></button>
+              </div>
+              <table class="table" style="font-size:12.5px">
+                <thead><tr><th><span data-es>Fecha</span><span data-en>Date</span></th><th><span data-es>Usuario</span><span data-en>User</span></th><th><span data-es>Acción</span><span data-en>Action</span></th><th>IP</th></tr></thead>
+                <tbody>
+                  <tr><td>01/06 9:42</td><td>Admin Xana</td><td><strong>resultado.enviado</strong> · paciente #PAT-2026-0287</td><td>190.85.x.x</td></tr>
+                  <tr><td>01/06 9:30</td><td>Juan Pérez</td><td><strong>resultado.creado</strong> · paciente #PAT-2026-0287</td><td>190.85.x.x</td></tr>
+                  <tr><td>01/06 9:15</td><td>Sistema</td><td><strong>paciente.registrado</strong> · vía portal IPS Salud Total</td><td>—</td></tr>
+                  <tr><td>01/06 8:58</td><td>Ana Quintero</td><td><strong>resultado.aprobado</strong> · paciente #PAT-2026-0285</td><td>190.85.x.x</td></tr>
+                  <tr><td>01/06 8:30</td><td>Admin Xana</td><td><strong>auth.login</strong></td><td>190.85.x.x</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- BACKUP -->
+          <div class="cfg-page cfg-backup">
+            <h3 class="cfg-title">💾 <span data-es>Backup y Respaldos</span><span data-en>Backup</span></h3>
+            <p class="cfg-lead"><span data-es>Tu información está respaldada automáticamente. Aquí ves el estado y puedes restaurar.</span><span data-en>Your data is auto-backed up. Check status and restore here.</span></p>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px">
+              <div class="cfg-card" style="margin:0;text-align:center">
+                <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--green-d);font-weight:400;line-height:1">✓</div>
+                <div style="font-size:11px;color:var(--ink-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-top:6px"><span data-es>Último backup</span><span data-en>Last backup</span></div>
+                <div style="font-size:14px;color:var(--ink);font-weight:600;margin-top:4px">Hoy · 3:00 AM</div>
+              </div>
+              <div class="cfg-card" style="margin:0;text-align:center">
+                <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--blue-d);font-weight:400;line-height:1">2.3<span style="font-size:18px"> GB</span></div>
+                <div style="font-size:11px;color:var(--ink-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-top:6px"><span data-es>Tamaño actual</span><span data-en>Current size</span></div>
+                <div style="font-size:14px;color:var(--ink-soft);margin-top:4px"><span data-es>+45 MB en 7 días</span><span data-en>+45 MB in 7 days</span></div>
+              </div>
+              <div class="cfg-card" style="margin:0;text-align:center">
+                <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--blue-d);font-weight:400;line-height:1">30</div>
+                <div style="font-size:11px;color:var(--ink-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-top:6px"><span data-es>Backups guardados</span><span data-en>Backups stored</span></div>
+                <div style="font-size:14px;color:var(--ink-soft);margin-top:4px"><span data-es>30 días de historial</span><span data-en>30 days history</span></div>
+              </div>
+            </div>
+
+            <div class="cfg-card">
+              <h4 class="cfg-h4"><span data-es>Configuración</span><span data-en>Settings</span></h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="field"><label><span data-es>Frecuencia</span><span data-en>Frequency</span></label>
+                  <select><option><span data-es>Diaria</span></option><option><span data-es>Cada 12 horas</span></option><option><span data-es>Semanal</span></option></select>
+                </div>
+                <div class="field"><label><span data-es>Hora</span><span data-en>Time</span></label><input type="time" value="03:00"></div>
+                <div class="field"><label><span data-es>Días de retención</span><span data-en>Retention days</span></label><input type="number" value="30"></div>
+                <div class="field"><label><span data-es>Notificar a</span><span data-en>Notify to</span></label><input type="email" value="admin@xanalab.co"></div>
+              </div>
+              <div class="cfg-actions">
+                <button class="btn-secondary" style="margin-right:10px"><span data-es>Restaurar Backup</span><span data-en>Restore</span></button>
+                <button class="btn-primary"><span data-es>Hacer Backup Ahora</span><span data-en>Backup Now</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PREFERENCIAS -->
+          <div class="cfg-page cfg-pref">
+            <h3 class="cfg-title">⚙️ <span data-es>Preferencias Generales</span><span data-en>General Preferences</span></h3>
+            <p class="cfg-lead"><span data-es>Personaliza idioma, formato de fechas y zona horaria del sistema.</span><span data-en>Customize language, date format and time zone.</span></p>
+
+            <div class="cfg-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="field"><label><span data-es>Idioma por defecto</span><span data-en>Default language</span></label>
+                  <select><option>Español</option><option>English</option></select>
+                </div>
+                <div class="field"><label><span data-es>Zona horaria</span><span data-en>Time zone</span></label>
+                  <select><option>America/Bogotá (UTC-5)</option><option>America/New_York</option></select>
+                </div>
+                <div class="field"><label><span data-es>Formato de fecha</span><span data-en>Date format</span></label>
+                  <select><option>DD/MM/AAAA</option><option>AAAA-MM-DD</option><option>MM/DD/AAAA</option></select>
+                </div>
+                <div class="field"><label><span data-es>Moneda</span><span data-en>Currency</span></label>
+                  <select><option>COP · Peso colombiano</option><option>USD</option></select>
+                </div>
+              </div>
+              <div class="cfg-actions"><button class="btn-primary"><span data-es>Guardar preferencias</span><span data-en>Save preferences</span></button></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- =========== ARCHIVOS =========== -->
     <section class="app-section app-archivos">
       <div class="section-head">
@@ -2271,6 +2621,15 @@ function setMode(e, m){
   var pages = document.querySelectorAll('.mode-page');
   for(var j=0;j<pages.length;j++){ pages[j].classList.remove('active'); }
   var sel = document.querySelector('.mode-'+m);
+  if(sel) sel.classList.add('active');
+}
+function setCfg(e, c){
+  var tabs = document.querySelectorAll('.cfg-tab');
+  for(var i=0;i<tabs.length;i++){ tabs[i].classList.remove('active'); }
+  e.target.closest('.cfg-tab').classList.add('active');
+  var pages = document.querySelectorAll('.cfg-page');
+  for(var j=0;j<pages.length;j++){ pages[j].classList.remove('active'); }
+  var sel = document.querySelector('.cfg-'+c);
   if(sel) sel.classList.add('active');
 }
 </script>
