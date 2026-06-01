@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistema LIMS · Mockup · Xana Laboratorio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F8FC;
+  --bg-2:#FAFCFE;
+  --paper:#FFFFFF;
+  --ink:#1F3552;
+  --ink-2:#3C5670;
+  --ink-soft:#6E7F94;
+  --muted:#A4B0BE;
+  --muted-2:#D5DCE3;
+  --line:rgba(31,53,82,.10);
+  --line-strong:rgba(31,53,82,.22);
+
+  --blue:#3A6FA8;
+  --blue-l:#6E9CCC;
+  --blue-vl:#C5DAEC;
+  --blue-d:#2A5285;
+  --blue-bg:#EFF5FA;
+
+  --green:#A8C854;
+  --green-d:#87A93C;
+  --green-l:#C5DC85;
+  --green-bg:#F2F7E2;
+
+  --coral:#E08566;
+  --amber:#D4A24B;
+  --success:#5DA978;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;overflow:hidden}
+
+/* === LANG === */
+body[data-lang="es"] [data-en]{display:none}
+body[data-lang="en"] [data-es]{display:none}
+
+/* === VIEW SWITCHING === */
+.view{display:none}
+body[data-view="login"] .view-login,
+body[data-view="register"] .view-register{display:flex}
+body[data-view="app-dashboard"] .view-app,
+body[data-view="app-pacientes"] .view-app,
+body[data-view="app-paciente-detalle"] .view-app,
+body[data-view="app-resultado"] .view-app,
+body[data-view="app-correos"] .view-app,
+body[data-view="app-clientes"] .view-app,
+body[data-view="portal-cliente"] .view-app{display:flex}
+
+/* App page · cambia el contenido principal */
+body[data-view="app-dashboard"] .app-dashboard,
+body[data-view="app-pacientes"] .app-pacientes,
+body[data-view="app-paciente-detalle"] .app-paciente-detalle,
+body[data-view="app-resultado"] .app-resultado,
+body[data-view="app-correos"] .app-correos,
+body[data-view="app-clientes"] .app-clientes,
+body[data-view="portal-cliente"] .app-portal-cliente{display:flex}
+.app-main > section{display:none;flex-direction:column;flex:1;overflow-y:auto}
+
+/* Sidebar diferente para portal cliente */
+body[data-view="portal-cliente"] .sidebar-admin{display:none}
+body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
+
+/* === HEX PATTERN sutil decorativo === */
+.hex-bg{position:absolute;inset:0;pointer-events:none;opacity:.4;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='230' viewBox='0 0 200 230'><g fill='none' stroke='%236E9CCC' stroke-width='0.6' opacity='0.4'><polygon points='50,15 90,15 110,50 90,85 50,85 30,50'/><polygon points='110,80 150,80 170,115 150,150 110,150 90,115'/><polygon points='50,115 90,115 110,150 90,185 50,185 30,150'/></g></svg>");
+}
+
+/* ============================================ */
+/* VIEW · LOGIN                                  */
+/* ============================================ */
+.view-login{
+  position:relative;width:100%;height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(140deg, #F5F9FC 0%, #E8F1F8 50%, #DDE9F2 100%);
+}
+.login-card{
+  background:var(--paper);padding:48px 44px;width:420px;max-width:90%;
+  box-shadow:0 24px 60px rgba(31,53,82,.12);
+  border-radius:12px;position:relative;z-index:2;
+  border-top:4px solid var(--blue);
+}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:36px;justify-content:center}
+.login-logo-dot{
+  width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #FFF 0%, var(--blue-l) 100%);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(58,111,168,.18);
+}
+.login-logo-dot svg{width:26px;height:26px}
+.login-logo-text{
+  font-family:'DM Serif Display',serif;font-size:24px;color:var(--blue-d);letter-spacing:.005em;
+}
+.login-logo-text small{
+  display:block;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.45em;
+  color:var(--green-d);text-transform:uppercase;font-weight:700;margin-top:2px;
+}
+.login-title{
+  font-family:'DM Serif Display',serif;font-size:24px;text-align:center;
+  color:var(--ink);margin-bottom:8px;
+}
+.login-sub{
+  font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);
+  text-align:center;margin-bottom:32px;font-weight:400;
+}
+.login-form{display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{
+  font-size:10.5px;letter-spacing:.18em;color:var(--ink-soft);
+  text-transform:uppercase;font-weight:600;
+}
+.field input,.field select,.field textarea{
+  height:44px;padding:0 14px;background:var(--bg-2);border:1px solid var(--line);
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);
+  border-radius:6px;transition:all .2s;
+}
+.field textarea{height:auto;padding:12px 14px;min-height:80px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);background:#fff}
+.btn-primary{
+  height:48px;background:var(--blue);color:var(--paper);border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:13px;letter-spacing:.18em;
+  text-transform:uppercase;font-weight:700;border-radius:6px;margin-top:8px;
+  transition:all .2s;
+}
+.btn-primary:hover{background:var(--blue-d)}
+.btn-secondary{
+  height:44px;background:transparent;color:var(--blue);border:1.5px solid var(--blue);cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;font-weight:600;border-radius:6px;
+  transition:all .2s;
+}
+.btn-secondary:hover{background:var(--blue);color:var(--paper)}
+.btn-green{
+  background:var(--green);color:var(--blue-d);border:none;
+  height:44px;padding:0 22px;border-radius:6px;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;transition:all .2s;
+}
+.btn-green:hover{background:var(--green-d);color:var(--paper)}
+
+.login-switch{
+  margin-top:24px;padding-top:20px;border-top:1px solid var(--line);
+  text-align:center;font-size:11.5px;color:var(--ink-soft);
+}
+.login-switch button{
+  background:none;border:none;color:var(--blue);font:inherit;cursor:pointer;
+  font-weight:600;text-decoration:underline;text-underline-offset:3px;
+}
+.login-foot{
+  position:absolute;bottom:24px;left:0;right:0;text-align:center;
+  font-size:10px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;font-weight:500;
+}
+
+/* ============================================ */
+/* APP SHELL                                     */
+/* ============================================ */
+.view-app{width:100%;height:100vh}
+
+/* === SIDEBAR ADMIN === */
+.sidebar-admin,.sidebar-client{
+  width:240px;background:var(--blue-d);color:#E1EBF4;
+  display:flex;flex-direction:column;padding:0;flex-shrink:0;
+}
+.sidebar-brand{
+  padding:24px 22px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar-brand-dot{
+  width:38px;height:38px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #FFF 0%, var(--blue-l) 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.sidebar-brand-dot svg{width:22px;height:22px}
+.sidebar-brand-text{
+  font-family:'DM Serif Display',serif;font-size:18px;color:#FFFFFF;letter-spacing:.005em;
+}
+.sidebar-brand-text small{
+  display:block;font-family:'Inter',sans-serif;font-size:8.5px;letter-spacing:.36em;
+  color:var(--green-l);text-transform:uppercase;font-weight:700;margin-top:2px;
+}
+.sidebar-section{
+  font-size:9.5px;letter-spacing:.32em;color:#6E8EAA;
+  text-transform:uppercase;font-weight:700;
+  padding:22px 22px 8px;
+}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;padding:0 12px}
+.sidebar-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;background:none;border:none;
+  color:#C8D6E4;font-family:'Inter',sans-serif;font-size:13.5px;
+  cursor:pointer;text-align:left;border-radius:6px;font-weight:500;
+  transition:all .2s;
+}
+.sidebar-link:hover{background:rgba(255,255,255,.06);color:#FFFFFF}
+.sidebar-link.active{background:var(--blue);color:#FFFFFF;font-weight:600}
+.sidebar-link.active::before{
+  content:"";display:block;width:3px;height:18px;background:var(--green);
+  margin-right:-3px;border-radius:2px;
+}
+.sidebar-link svg{width:17px;height:17px;flex-shrink:0;opacity:.85}
+.sidebar-foot{
+  margin-top:auto;padding:18px 22px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;gap:12px;
+}
+.sidebar-foot-avatar{
+  width:36px;height:36px;border-radius:50%;background:var(--green);
+  color:var(--blue-d);display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:16px;font-weight:600;
+}
+.sidebar-foot-info{flex-grow:1;min-width:0}
+.sidebar-foot-name{font-size:13px;font-weight:600;color:#FFFFFF;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-foot-role{font-size:10.5px;color:var(--green-l);letter-spacing:.06em;margin-top:2px}
+.sidebar-foot button{
+  background:none;border:none;color:#8FAAC4;cursor:pointer;
+  padding:6px;border-radius:4px;transition:all .2s;
+}
+.sidebar-foot button:hover{color:#FFFFFF;background:rgba(255,255,255,.08)}
+
+/* === APP MAIN AREA === */
+.app-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.app-header{
+  background:var(--paper);padding:14px 28px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.app-search{
+  flex:1;max-width:420px;position:relative;
+}
+.app-search input{
+  width:100%;height:38px;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:6px;padding:0 14px 0 38px;font-size:13px;color:var(--ink);
+  font-family:'Inter',sans-serif;
+}
+.app-search input:focus{outline:none;border-color:var(--blue);background:#fff}
+.app-search svg{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--muted);
+}
+.app-actions{display:flex;gap:14px;align-items:center}
+.icon-btn{
+  background:none;border:none;width:38px;height:38px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;color:var(--ink-2);
+  cursor:pointer;position:relative;transition:all .2s;
+}
+.icon-btn:hover{background:var(--bg-2);color:var(--blue)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{
+  position:absolute;top:9px;right:9px;width:7px;height:7px;
+  background:var(--coral);border-radius:50%;border:1.5px solid var(--paper);
+}
+.app-lang{display:flex;gap:0;font-size:10.5px;letter-spacing:.22em;font-weight:600}
+.app-lang button{background:none;border:none;color:var(--muted);padding:6px 8px;cursor:pointer;text-transform:uppercase}
+.app-lang button.active{color:var(--blue)}
+
+/* === VIEWS · DASHBOARD === */
+.app-section{padding:28px;flex:1}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;
+}
+.section-title{
+  font-family:'DM Serif Display',serif;font-size:30px;color:var(--ink);letter-spacing:.005em;font-weight:400;
+}
+.section-title em{color:var(--blue);font-style:italic}
+.section-sub{font-size:12px;color:var(--ink-soft);margin-top:4px}
+.btn-action{
+  background:var(--blue);color:var(--paper);border:none;
+  padding:10px 18px;border-radius:6px;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.1em;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;transition:all .2s;
+}
+.btn-action:hover{background:var(--blue-d)}
+.btn-action svg{width:14px;height:14px}
+
+/* Metric Cards */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px}
+.metric{
+  background:var(--paper);padding:22px;border-radius:10px;border:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+.metric::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+.metric.green::before{background:var(--green)}
+.metric.amber::before{background:var(--amber)}
+.metric.coral::before{background:var(--coral)}
+.metric-label{
+  font-size:10px;letter-spacing:.28em;color:var(--ink-soft);
+  text-transform:uppercase;font-weight:700;margin-bottom:14px;
+}
+.metric-value{
+  font-family:'DM Serif Display',serif;font-size:42px;color:var(--blue-d);line-height:1;font-weight:400;letter-spacing:.005em;
+}
+.metric-value small{font-size:14px;color:var(--ink-soft);margin-left:4px;font-family:'Inter',sans-serif;font-weight:500}
+.metric-trend{
+  margin-top:10px;font-size:11.5px;color:var(--success);font-weight:500;
+  display:flex;align-items:center;gap:4px;
+}
+.metric-trend.down{color:var(--coral)}
+
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+.card{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px;
+}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.card-title{
+  font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink);font-weight:400;
+}
+.card-action{
+  background:none;border:none;color:var(--blue);cursor:pointer;font-size:11.5px;
+  font-weight:600;letter-spacing:.06em;
+}
+
+/* Recent activity list */
+.activity{display:flex;flex-direction:column;gap:14px}
+.activity-item{
+  display:flex;gap:14px;padding:14px;background:var(--bg-2);
+  border-radius:8px;align-items:center;
+}
+.activity-icon{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'DM Serif Display',serif;font-style:italic;
+  background:var(--blue-bg);color:var(--blue);font-size:18px;
+}
+.activity-icon.green{background:var(--green-bg);color:var(--green-d)}
+.activity-icon.amber{background:#FAF1DD;color:var(--amber)}
+.activity-info{flex-grow:1;min-width:0}
+.activity-main{font-size:13.5px;color:var(--ink);font-weight:500}
+.activity-main strong{color:var(--blue-d);font-weight:600}
+.activity-meta{font-size:11.5px;color:var(--ink-soft);margin-top:3px}
+.activity-time{font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* Pending by client */
+.pending-list{display:flex;flex-direction:column;gap:10px}
+.pending-item{
+  display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-2);border-radius:8px;
+}
+.pending-logo{
+  width:34px;height:34px;border-radius:8px;background:var(--paper);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:14px;color:var(--blue);font-weight:600;flex-shrink:0;
+}
+.pending-info{flex-grow:1;min-width:0}
+.pending-name{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pending-count{font-size:11px;color:var(--ink-soft);margin-top:2px}
+.pending-badge{
+  background:var(--coral);color:#FFF;padding:4px 10px;border-radius:14px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;flex-shrink:0;
+}
+
+/* === VIEWS · PACIENTES (lista) === */
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.chip{
+  padding:7px 14px;background:var(--paper);border:1px solid var(--line);
+  color:var(--ink-2);font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;
+  border-radius:18px;cursor:pointer;transition:all .2s;
+}
+.chip:hover{border-color:var(--blue);color:var(--blue)}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#FFF}
+
+.table-wrap{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{
+  text-align:left;padding:14px 18px;font-size:10.5px;letter-spacing:.22em;
+  color:var(--ink-soft);text-transform:uppercase;font-weight:700;
+  background:var(--bg-2);border-bottom:1px solid var(--line);
+}
+.table td{padding:14px 18px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.table tr:last-child td{border-bottom:none}
+.table tr.clickable{cursor:pointer;transition:background .15s}
+.table tr.clickable:hover{background:var(--bg-2)}
+.table .pat-name{font-weight:600;color:var(--ink);font-size:13.5px}
+.table .pat-id{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.06em}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:12px;
+  font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+}
+.badge.pending{background:#FBEFCB;color:#9C7910}
+.badge.process{background:var(--blue-bg);color:var(--blue)}
+.badge.done{background:var(--green-bg);color:var(--green-d)}
+.badge.sent{background:#E1F0E8;color:var(--success)}
+
+/* === VIEWS · PACIENTE DETALLE === */
+.detail-grid{display:grid;grid-template-columns:1fr 320px;gap:22px}
+.detail-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:24px;margin-bottom:18px;
+}
+.detail-head{display:flex;gap:20px;align-items:flex-start;margin-bottom:24px}
+.detail-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg, var(--blue) 0%, var(--blue-d) 100%);
+  color:#FFF;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:30px;font-weight:400;flex-shrink:0;
+}
+.detail-info h2{font-family:'DM Serif Display',serif;font-size:26px;color:var(--ink);font-weight:400;letter-spacing:.005em;margin-bottom:4px}
+.detail-info .pat-id{font-size:11.5px;color:var(--muted);letter-spacing:.16em;font-weight:600}
+.detail-meta{display:flex;gap:24px;margin-top:12px}
+.detail-meta span{font-size:12.5px;color:var(--ink-soft)}
+.detail-meta strong{color:var(--ink);font-weight:600;display:block;margin-top:2px;font-size:13px}
+
+.h-detail{
+  font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;
+  color:var(--blue);text-transform:uppercase;font-weight:700;margin-bottom:14px;
+}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px}
+.info-grid .info-item{padding:10px;background:var(--bg-2);border-radius:6px}
+.info-grid .info-label{font-size:10.5px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:3px;font-weight:600}
+.info-grid .info-value{color:var(--ink);font-weight:500;font-size:13.5px}
+
+.history-list{display:flex;flex-direction:column;gap:10px}
+.history-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px;background:var(--bg-2);border-radius:8px;
+  border-left:3px solid var(--green);
+}
+.history-info{display:flex;gap:12px;align-items:center}
+.history-date{
+  width:48px;text-align:center;
+  font-family:'DM Serif Display',serif;font-style:italic;
+  font-size:22px;color:var(--blue);line-height:1;font-weight:400;
+}
+.history-date span{font-size:10px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-style:normal;font-weight:600;letter-spacing:.18em;display:block;margin-top:2px;text-transform:uppercase}
+.history-content h4{font-size:13.5px;color:var(--ink);margin-bottom:2px}
+.history-content .meta{font-size:11.5px;color:var(--ink-soft)}
+.history-pdf{
+  background:var(--blue);color:#FFF;border:none;padding:8px 14px;border-radius:6px;
+  font-size:11px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:flex;align-items:center;gap:6px;
+}
+.history-pdf:hover{background:var(--blue-d)}
+
+/* === VIEW · RESULTADO + PDF PREVIEW === */
+.split-grid{display:grid;grid-template-columns:1fr 380px;gap:22px;height:100%}
+.result-form{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:24px;overflow-y:auto}
+.result-section{margin-bottom:24px}
+.result-section h4{
+  font-size:11px;letter-spacing:.28em;color:var(--blue);text-transform:uppercase;
+  font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.result-row{
+  display:grid;grid-template-columns:1.2fr .6fr .6fr .6fr;gap:12px;margin-bottom:10px;align-items:center;
+}
+.result-row label{font-size:12.5px;color:var(--ink);font-weight:500}
+.result-row input{
+  height:36px;padding:0 10px;background:var(--bg-2);border:1px solid var(--line);border-radius:5px;font-size:13px;
+}
+.result-row .unit{font-size:11px;color:var(--ink-soft);font-weight:500}
+.result-row .range{font-size:11px;color:var(--ink-soft);font-weight:500}
+.result-row input.alert{border-color:var(--coral);background:#FBEEEA}
+.result-row .flag{
+  display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;
+  color:var(--coral);text-transform:uppercase;letter-spacing:.06em;
+}
+.result-actions{display:flex;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+
+/* PDF Preview */
+.pdf-preview{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.pdf-preview-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.pdf-preview-head h4{font-family:'DM Serif Display',serif;font-size:15px;color:var(--ink);font-weight:400;font-style:italic}
+.pdf-preview-body{flex:1;background:#E9EEF4;padding:24px;overflow-y:auto}
+.pdf-page{
+  background:#FFF;padding:30px 28px;
+  box-shadow:0 8px 24px rgba(31,53,82,.12);font-size:11px;
+  border-radius:2px;
+}
+.pdf-page-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:2px solid var(--blue);margin-bottom:18px}
+.pdf-logo-client{
+  display:flex;align-items:center;gap:10px;
+}
+.pdf-logo-client-box{
+  width:38px;height:38px;background:linear-gradient(135deg,#FCD8E5,#F89BB8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:18px;color:#A1244B;font-weight:600;border-radius:4px;
+}
+.pdf-logo-client-text{font-size:11px;color:var(--ink-soft);font-weight:600;letter-spacing:.04em}
+.pdf-logo-client-text strong{display:block;color:var(--ink);font-size:13.5px;letter-spacing:0;font-family:'DM Serif Display',serif;font-weight:400}
+.pdf-laboratory{font-size:9.5px;color:var(--ink-soft);text-align:right;letter-spacing:.16em;font-weight:600;text-transform:uppercase}
+.pdf-laboratory strong{display:block;color:var(--blue-d);font-size:11.5px;font-family:'DM Serif Display',serif;font-weight:400;letter-spacing:0;text-transform:none;margin-bottom:1px;font-style:italic}
+.pdf-title{
+  font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink);font-weight:400;
+  text-align:center;margin-bottom:14px;
+}
+.pdf-pat{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;
+  padding:10px 12px;background:var(--bg-2);border-radius:4px;margin-bottom:18px;font-size:10px;
+}
+.pdf-pat span{color:var(--ink-soft);font-weight:600;letter-spacing:.04em}
+.pdf-pat strong{color:var(--ink);font-weight:600}
+.pdf-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:18px}
+.pdf-table th{background:var(--blue-d);color:#FFF;padding:6px 8px;text-align:left;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.pdf-table td{padding:6px 8px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.pdf-table td.high{color:var(--coral);font-weight:700}
+.pdf-foot{
+  padding-top:14px;border-top:1px solid var(--line);font-size:8.5px;color:var(--ink-soft);
+  display:flex;justify-content:space-between;align-items:center;font-weight:500;
+}
+
+/* === VIEW · CORREOS === */
+.email-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.email-compose{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:24px}
+.email-compose .field{margin-bottom:14px}
+.email-history{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:24px}
+.email-list{display:flex;flex-direction:column;gap:10px}
+.email-item{
+  display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:8px;
+  align-items:flex-start;background:var(--bg-2);
+}
+.email-status{
+  width:8px;height:8px;border-radius:50%;background:var(--success);
+  margin-top:6px;flex-shrink:0;
+}
+.email-status.pending{background:var(--amber)}
+.email-status.failed{background:var(--coral)}
+.email-info{flex-grow:1;min-width:0}
+.email-to{font-size:13px;font-weight:600;color:var(--ink)}
+.email-sub{font-size:11.5px;color:var(--ink-2);margin-top:2px}
+.email-time{font-size:10.5px;color:var(--muted);margin-top:4px;display:flex;gap:10px}
+.email-time .opened{color:var(--success);font-weight:600}
+
+/* === VIEW · CLIENTES === */
+.clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.client-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px;
+  cursor:pointer;transition:all .2s;
+}
+.client-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,53,82,.06)}
+.client-card-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.client-logo{
+  width:54px;height:54px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:22px;font-weight:600;
+}
+.client-logo.c1{background:linear-gradient(135deg,#FCD8E5,#F89BB8);color:#A1244B}
+.client-logo.c2{background:linear-gradient(135deg,#D8E5FC,#9BB8F8);color:#244BA1}
+.client-logo.c3{background:linear-gradient(135deg,#D8FCE5,#9BF8B8);color:#24A14B}
+.client-logo.c4{background:linear-gradient(135deg,#FCE5D8,#F8B89B);color:#A14B24}
+.client-logo.c5{background:linear-gradient(135deg,#E5D8FC,#B89BF8);color:#4B24A1}
+.client-logo.c6{background:linear-gradient(135deg,#D8FCFC,#9BF8F8);color:#24A1A1}
+.client-info{flex-grow:1;min-width:0}
+.client-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink);font-weight:400;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.client-type{font-size:10.5px;color:var(--blue);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-top:3px}
+.client-stats{display:flex;gap:18px;padding-top:14px;border-top:1px solid var(--line)}
+.client-stat .v{font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue-d);font-weight:400}
+.client-stat .l{font-size:10px;color:var(--ink-soft);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:2px}
+
+/* === VIEW · PORTAL CLIENTE === */
+.sidebar-client{background:linear-gradient(180deg, #FFFFFF 0%, var(--blue-bg) 100%);color:var(--ink)}
+.sidebar-client .sidebar-brand{border-bottom-color:var(--line)}
+.sidebar-client .sidebar-brand-text{color:var(--blue-d)}
+.sidebar-client .sidebar-section{color:var(--muted)}
+.sidebar-client .sidebar-link{color:var(--ink-2)}
+.sidebar-client .sidebar-link:hover{background:rgba(58,111,168,.08);color:var(--blue-d)}
+.sidebar-client .sidebar-link.active{background:var(--blue);color:#FFF}
+.sidebar-client .sidebar-foot{border-top-color:var(--line)}
+.sidebar-client .sidebar-foot-name{color:var(--ink)}
+.sidebar-client .sidebar-foot-role{color:var(--blue)}
+.sidebar-client .sidebar-foot button{color:var(--ink-soft)}
+.sidebar-client .sidebar-foot button:hover{background:rgba(58,111,168,.06)}
+
+.portal-welcome{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-d) 100%);color:#FFF;
+  padding:28px;border-radius:12px;margin-bottom:22px;position:relative;overflow:hidden;
+}
+.portal-welcome::before{
+  content:"";position:absolute;top:0;right:0;width:200px;height:200px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><g fill='none' stroke='%23A8C854' stroke-width='1' opacity='0.4'><polygon points='100,20 140,20 160,55 140,90 100,90 80,55'/><polygon points='40,80 80,80 100,115 80,150 40,150 20,115'/></g></svg>");
+  background-repeat:no-repeat;
+}
+.portal-welcome h2{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;font-style:italic;letter-spacing:.005em;margin-bottom:6px;position:relative;z-index:2}
+.portal-welcome p{font-size:13px;color:rgba(255,255,255,.88);position:relative;z-index:2}
+
+/* === VIEW · REGISTRO PÚBLICO === */
+.view-register{
+  position:relative;width:100%;min-height:100vh;
+  background:linear-gradient(140deg, #F5F9FC 0%, #E8F1F8 100%);
+  display:flex;align-items:center;justify-content:center;padding:40px 20px;
+  overflow-y:auto;
+}
+.register-card{
+  background:var(--paper);width:600px;max-width:100%;padding:48px 44px;
+  border-radius:12px;box-shadow:0 24px 60px rgba(31,53,82,.12);
+  position:relative;z-index:2;border-top:4px solid var(--green);
+}
+.register-head{text-align:center;margin-bottom:32px}
+.register-head .label{font-size:10.5px;letter-spacing:.4em;color:var(--green-d);text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.register-head h1{font-family:'DM Serif Display',serif;font-size:28px;color:var(--blue-d);letter-spacing:.005em;font-weight:400;margin-bottom:8px}
+.register-head p{font-size:13px;color:var(--ink-soft);max-width:380px;margin:0 auto}
+.register-step{display:flex;justify-content:center;gap:8px;margin-bottom:32px}
+.step-dot{width:30px;height:5px;border-radius:3px;background:var(--muted-2)}
+.step-dot.active{background:var(--blue)}
+.step-dot.done{background:var(--green)}
+
+.fields-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:520px){.fields-row{grid-template-columns:1fr}}
+
+.register-submit{
+  margin-top:20px;display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding-top:20px;border-top:1px solid var(--line);
+}
+
+@media (max-width: 920px){
+  .sidebar-admin,.sidebar-client{width:64px}
+  .sidebar-brand-text,.sidebar-section,.sidebar-link span,.sidebar-foot-info{display:none}
+  .sidebar-link{justify-content:center}
+  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  .dash-grid{grid-template-columns:1fr}
+  .split-grid{grid-template-columns:1fr;height:auto}
+  .clients-grid{grid-template-columns:1fr 1fr}
+  .email-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-view="login" data-lang="es">
+
+<!-- ============================================ -->
+<!-- LOGIN                                          -->
+<!-- ============================================ -->
+<section class="view view-login">
+  <div class="hex-bg"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-dot">
+        <svg viewBox="0 0 24 24" fill="none">
+          <polygon points="12,3 21,8 21,16 12,21 3,16 3,8" stroke="#3A6FA8" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="3" fill="#A8C854"/>
+        </svg>
+      </div>
+      <div class="login-logo-text">XANA<small>Laboratorio Clínico</small></div>
+    </div>
+    <h1 class="login-title"><span data-es>Bienvenido</span><span data-en>Welcome</span></h1>
+    <p class="login-sub"><span data-es>Acceso al sistema interno · personal autorizado</span><span data-en>Internal system access · authorized personnel</span></p>
+
+    <div class="login-form">
+      <div class="field">
+        <label><span data-es>Correo</span><span data-en>Email</span></label>
+        <input type="email" value="admin@xanalab.co" autocomplete="off">
+      </div>
+      <div class="field">
+        <label><span data-es>Contraseña</span><span data-en>Password</span></label>
+        <input type="password" value="••••••••">
+      </div>
+      <button type="button" class="btn-primary" data-goto="app-dashboard"><span data-es>Ingresar al sistema</span><span data-en>Sign in</span></button>
+    </div>
+
+    <div class="login-switch">
+      <span data-es>¿Eres cliente B2B? </span><span data-en>Are you a B2B client? </span>
+      <button type="button" data-goto="portal-cliente"><span data-es>Ingresa al portal</span><span data-en>Go to client portal</span></button>
+      <br><br>
+      <span data-es>¿Necesitas registrar un paciente? </span><span data-en>Need to register a patient? </span>
+      <button type="button" data-goto="register"><span data-es>Formulario público</span><span data-en>Public form</span></button>
+    </div>
+  </div>
+  <div class="login-foot">Sistema LIMS Xana · Demo Interactivo</div>
+</section>
+
+<!-- ============================================ -->
+<!-- REGISTRO PÚBLICO                              -->
+<!-- ============================================ -->
+<section class="view view-register">
+  <div class="hex-bg"></div>
+  <div class="register-card">
+    <div class="register-head">
+      <div class="label"><span data-es>Reemplaza el Drive compartido</span><span data-en>Replaces shared Drive</span></div>
+      <h1><span data-es>Registro de Paciente</span><span data-en>Patient Registration</span></h1>
+      <p><span data-es>Complete los datos del paciente. El sistema verifica que no exista y le asigna ID único automáticamente.</span><span data-en>Complete patient data. The system checks duplicates and assigns a unique ID automatically.</span></p>
+    </div>
+
+    <div class="register-step">
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+    </div>
+
+    <div id="registerForm">
+      <div class="fields-row">
+        <div class="field"><label><span data-es>Primer Nombre</span><span data-en>First Name</span></label><input type="text" value="Laura"></div>
+        <div class="field"><label><span data-es>Segundo Nombre</span><span data-en>Middle Name</span></label><input type="text" value="María"></div>
+      </div>
+      <div class="fields-row" style="margin-top:14px">
+        <div class="field"><label><span data-es>Primer Apellido</span><span data-en>Last Name</span></label><input type="text" value="González"></div>
+        <div class="field"><label><span data-es>Segundo Apellido</span><span data-en>Second Last Name</span></label><input type="text" value="Restrepo"></div>
+      </div>
+      <div class="fields-row" style="margin-top:14px">
+        <div class="field"><label><span data-es>Tipo de Documento</span><span data-en>ID Type</span></label>
+          <select><option>Cédula de Ciudadanía</option><option>Cédula Extranjería</option><option>Pasaporte</option></select>
+        </div>
+        <div class="field"><label><span data-es>Número</span><span data-en>Number</span></label><input type="text" value="1.034.567.890"></div>
+      </div>
+      <div class="fields-row" style="margin-top:14px">
+        <div class="field"><label><span data-es>Fecha de Nacimiento</span><span data-en>Birth Date</span></label><input type="date" value="1989-04-12"></div>
+        <div class="field"><label><span data-es>Teléfono</span><span data-en>Phone</span></label><input type="tel" value="+57 311 555 4438"></div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label><span data-es>Correo del Paciente</span><span data-en>Patient Email</span></label>
+        <input type="email" value="laura.gonzalez@correo.com">
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label><span data-es>Cliente que Refiere</span><span data-en>Referring Client</span></label>
+        <select>
+          <option>Clínica Rosa · Bogotá</option>
+          <option>IPS Salud Total · Medellín</option>
+          <option>Consultorio Dr. Ramírez</option>
+          <option>Centro Médico Vita</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label><span data-es>Tipo de Examen Solicitado</span><span data-en>Test Requested</span></label>
+        <select>
+          <option>Hemograma Completo</option>
+          <option>Perfil Lipídico</option>
+          <option>Glicemia + HbA1c</option>
+          <option>TSH · Función Tiroidea</option>
+          <option>Uroanálisis</option>
+        </select>
+      </div>
+
+      <div class="register-submit">
+        <button type="button" class="btn-secondary" data-goto="login"><span data-es>Cancelar</span><span data-en>Cancel</span></button>
+        <button type="button" class="btn-primary" data-goto="login" onclick="alert('Paciente registrado · ID #PAT-2026-0287')"><span data-es>Registrar Paciente</span><span data-en>Register Patient</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- APP SHELL · Comparte sidebar + header         -->
+<!-- ============================================ -->
+<div class="view view-app">
+
+  <!-- SIDEBAR ADMIN -->
+  <aside class="sidebar-admin">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-dot">
+        <svg viewBox="0 0 24 24" fill="none">
+          <polygon points="12,3 21,8 21,16 12,21 3,16 3,8" stroke="#3A6FA8" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="3" fill="#A8C854"/>
+        </svg>
+      </div>
+      <div class="sidebar-brand-text">XANA<small>Sistema LIMS</small></div>
+    </div>
+
+    <div class="sidebar-section"><span data-es>Operación</span><span data-en>Operation</span></div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link" data-app-section="dashboard" type="button" data-goto="app-dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span data-es>Dashboard</span><span data-en>Dashboard</span>
+      </button>
+      <button class="sidebar-link" data-app-section="pacientes" type="button" data-goto="app-pacientes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <span data-es>Pacientes</span><span data-en>Patients</span>
+      </button>
+      <button class="sidebar-link" data-app-section="resultado" type="button" data-goto="app-resultado">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        <span data-es>Resultados</span><span data-en>Results</span>
+      </button>
+      <button class="sidebar-link" data-app-section="correos" type="button" data-goto="app-correos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span data-es>Correos</span><span data-en>Emails</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-section"><span data-es>Administración</span><span data-en>Admin</span></div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link" data-app-section="clientes" type="button" data-goto="app-clientes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="9" cy="17" r="1" fill="currentColor"/></svg>
+        <span data-es>Clientes B2B</span><span data-en>B2B Clients</span>
+      </button>
+      <button class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01A1.65 1.65 0 009 3.6V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span data-es>Configuración</span><span data-en>Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="sidebar-foot-avatar">M</div>
+      <div class="sidebar-foot-info">
+        <div class="sidebar-foot-name">María Vega</div>
+        <div class="sidebar-foot-role"><span data-es>Admin</span><span data-en>Admin</span></div>
+      </div>
+      <button type="button" data-goto="login" title="Salir">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR PORTAL CLIENTE -->
+  <aside class="sidebar-client">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-dot" style="background:linear-gradient(135deg,#FCD8E5,#F89BB8)">
+        <svg viewBox="0 0 24 24" width="20" height="20"><text x="12" y="17" text-anchor="middle" font-family="DM Serif Display" font-size="16" fill="#A1244B" font-weight="600">CR</text></svg>
+      </div>
+      <div class="sidebar-brand-text">Clínica Rosa<small>Portal de Cliente</small></div>
+    </div>
+
+    <div class="sidebar-section"><span data-es>Mis Datos</span><span data-en>My Data</span></div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span data-es>Inicio</span><span data-en>Home</span>
+      </button>
+      <button class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <span data-es>Mis Pacientes</span><span data-en>My Patients</span>
+      </button>
+      <button class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-es>Resultados</span><span data-en>Results</span>
+      </button>
+      <button class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+        <span data-es>Registrar Paciente</span><span data-en>New Patient</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="sidebar-foot-avatar" style="background:#F89BB8;color:#A1244B">R</div>
+      <div class="sidebar-foot-info">
+        <div class="sidebar-foot-name">Dra. Rosa Méndez</div>
+        <div class="sidebar-foot-role">Clínica Rosa</div>
+      </div>
+      <button type="button" data-goto="login" title="Salir">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="app-main">
+    <header class="app-header">
+      <div class="app-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Buscar pacientes, clientes, resultados..." />
+      </div>
+      <div class="app-actions">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></button>
+        <div class="app-lang">
+          <button data-lang-set="es" class="active">ES</button>
+          <span style="color:var(--muted);align-self:center">·</span>
+          <button data-lang-set="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- =========== DASHBOARD =========== -->
+    <section class="app-section app-dashboard">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Buen día, <em>María</em></span><span data-en>Good morning, <em>María</em></span></h1>
+          <div class="section-sub"><span data-es>Esto es lo que está pendiente hoy</span><span data-en>Here's today's pending work</span></div>
+        </div>
+        <button class="btn-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span data-es>Nuevo Paciente</span><span data-en>New Patient</span>
+        </button>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric">
+          <div class="metric-label"><span data-es>Pacientes Hoy</span><span data-en>Patients Today</span></div>
+          <div class="metric-value">28</div>
+          <div class="metric-trend">↑ 12% <span data-es>vs ayer</span><span data-en>vs yesterday</span></div>
+        </div>
+        <div class="metric amber">
+          <div class="metric-label"><span data-es>Pendientes</span><span data-en>Pending</span></div>
+          <div class="metric-value">7</div>
+          <div class="metric-trend down">↓ 3% <span data-es>vs ayer</span><span data-en>vs yesterday</span></div>
+        </div>
+        <div class="metric green">
+          <div class="metric-label"><span data-es>Enviados Hoy</span><span data-en>Sent Today</span></div>
+          <div class="metric-value">21</div>
+          <div class="metric-trend">↑ 18%</div>
+        </div>
+        <div class="metric coral">
+          <div class="metric-label"><span data-es>Tiempo Ahorrado</span><span data-en>Time Saved</span></div>
+          <div class="metric-value">5<small>h</small></div>
+          <div class="metric-trend"><span data-es>Esta semana</span><span data-en>This week</span></div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title"><span data-es>Actividad Reciente</span><span data-en>Recent Activity</span></div>
+            <button class="card-action"><span data-es>Ver todo</span><span data-en>See all</span></button>
+          </div>
+          <div class="activity">
+            <div class="activity-item">
+              <div class="activity-icon green">✓</div>
+              <div class="activity-info">
+                <div class="activity-main"><span data-es>Resultado enviado a </span><span data-en>Result sent to </span><strong>Laura González</strong></div>
+                <div class="activity-meta"><span data-es>Cliente · Clínica Rosa · Hemograma</span><span data-en>Client · Clínica Rosa · Hemogram</span></div>
+              </div>
+              <div class="activity-time">9:42 AM</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">⊕</div>
+              <div class="activity-info">
+                <div class="activity-main"><span data-es>Nuevo paciente registrado por </span><span data-en>New patient registered by </span><strong>IPS Salud Total</strong></div>
+                <div class="activity-meta"><span data-es>Carlos Hernández · Perfil Lipídico</span><span data-en>Carlos Hernández · Lipid Profile</span></div>
+              </div>
+              <div class="activity-time">9:15 AM</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon amber">!</div>
+              <div class="activity-info">
+                <div class="activity-main"><span data-es>Resultado fuera de rango · </span><span data-en>Out-of-range result · </span><strong>Ana Pérez</strong></div>
+                <div class="activity-meta"><span data-es>Glucosa: 185 mg/dL · Requiere revisión</span><span data-en>Glucose: 185 mg/dL · Review needed</span></div>
+              </div>
+              <div class="activity-time">8:58 AM</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon green">✓</div>
+              <div class="activity-info">
+                <div class="activity-main"><span data-es>PDF generado para </span><span data-en>PDF generated for </span><strong>Mateo Ruiz</strong></div>
+                <div class="activity-meta"><span data-es>Plantilla: Centro Médico Vita</span><span data-en>Template: Centro Médico Vita</span></div>
+              </div>
+              <div class="activity-time">8:30 AM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title"><span data-es>Pendientes por Cliente</span><span data-en>Pending by Client</span></div>
+          </div>
+          <div class="pending-list">
+            <div class="pending-item">
+              <div class="pending-logo" style="color:#A1244B;background:linear-gradient(135deg,#FCD8E5,#F89BB8)">CR</div>
+              <div class="pending-info">
+                <div class="pending-name">Clínica Rosa</div>
+                <div class="pending-count"><span data-es>Bogotá · resultados pendientes</span><span data-en>Bogotá · pending results</span></div>
+              </div>
+              <div class="pending-badge">3</div>
+            </div>
+            <div class="pending-item">
+              <div class="pending-logo" style="color:#244BA1;background:linear-gradient(135deg,#D8E5FC,#9BB8F8)">ST</div>
+              <div class="pending-info">
+                <div class="pending-name">IPS Salud Total</div>
+                <div class="pending-count">Medellín</div>
+              </div>
+              <div class="pending-badge">2</div>
+            </div>
+            <div class="pending-item">
+              <div class="pending-logo" style="color:#24A14B;background:linear-gradient(135deg,#D8FCE5,#9BF8B8)">VT</div>
+              <div class="pending-info">
+                <div class="pending-name">Centro Médico Vita</div>
+                <div class="pending-count">Bogotá</div>
+              </div>
+              <div class="pending-badge">1</div>
+            </div>
+            <div class="pending-item">
+              <div class="pending-logo" style="color:#A14B24;background:linear-gradient(135deg,#FCE5D8,#F8B89B)">DR</div>
+              <div class="pending-info">
+                <div class="pending-name">Dr. Ramírez</div>
+                <div class="pending-count"><span data-es>Consultorio privado</span><span data-en>Private practice</span></div>
+              </div>
+              <div class="pending-badge">1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== PACIENTES =========== -->
+    <section class="app-section app-pacientes">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Base de <em>Pacientes</em></span><span data-en><em>Patient</em> Database</span></h1>
+          <div class="section-sub"><span data-es>1.247 pacientes registrados · búsqueda instantánea</span><span data-en>1,247 patients registered · instant search</span></div>
+        </div>
+        <button class="btn-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span data-es>Nuevo Paciente</span><span data-en>New Patient</span>
+        </button>
+      </div>
+
+      <div class="filter-row">
+        <button class="chip active"><span data-es>Todos</span><span data-en>All</span></button>
+        <button class="chip"><span data-es>Pendientes</span><span data-en>Pending</span></button>
+        <button class="chip"><span data-es>En Proceso</span><span data-en>In Process</span></button>
+        <button class="chip"><span data-es>Listos</span><span data-en>Ready</span></button>
+        <button class="chip"><span data-es>Enviados Hoy</span><span data-en>Sent Today</span></button>
+        <button class="chip">Clínica Rosa</button>
+        <button class="chip">IPS Salud Total</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><span data-es>Paciente</span><span data-en>Patient</span></th>
+              <th>ID</th>
+              <th><span data-es>Cliente</span><span data-en>Client</span></th>
+              <th><span data-es>Examen</span><span data-en>Test</span></th>
+              <th><span data-es>Fecha</span><span data-en>Date</span></th>
+              <th><span data-es>Estado</span><span data-en>Status</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="clickable" data-goto="app-paciente-detalle">
+              <td><div class="pat-name">Laura María González R.</div></td>
+              <td><div class="pat-id">#PAT-2026-0287</div></td>
+              <td>Clínica Rosa</td>
+              <td><span data-es>Hemograma</span><span data-en>Hemogram</span></td>
+              <td>01/06/2026</td>
+              <td><span class="badge sent"><span data-es>Enviado</span><span data-en>Sent</span></span></td>
+            </tr>
+            <tr class="clickable">
+              <td><div class="pat-name">Carlos Hernández P.</div></td>
+              <td><div class="pat-id">#PAT-2026-0286</div></td>
+              <td>IPS Salud Total</td>
+              <td><span data-es>Perfil Lipídico</span><span data-en>Lipid Profile</span></td>
+              <td>01/06/2026</td>
+              <td><span class="badge process"><span data-es>En Proceso</span><span data-en>In Process</span></span></td>
+            </tr>
+            <tr class="clickable">
+              <td><div class="pat-name">Ana Patricia Pérez M.</div></td>
+              <td><div class="pat-id">#PAT-2026-0285</div></td>
+              <td>Centro Médico Vita</td>
+              <td>Glicemia + HbA1c</td>
+              <td>01/06/2026</td>
+              <td><span class="badge pending"><span data-es>Pendiente</span><span data-en>Pending</span></span></td>
+            </tr>
+            <tr class="clickable">
+              <td><div class="pat-name">Mateo Andrés Ruiz S.</div></td>
+              <td><div class="pat-id">#PAT-2026-0284</div></td>
+              <td>Clínica Rosa</td>
+              <td>TSH</td>
+              <td>31/05/2026</td>
+              <td><span class="badge done"><span data-es>Listo</span><span data-en>Ready</span></span></td>
+            </tr>
+            <tr class="clickable">
+              <td><div class="pat-name">Sofía Castaño L.</div></td>
+              <td><div class="pat-id">#PAT-2026-0283</div></td>
+              <td>Dr. Ramírez</td>
+              <td><span data-es>Uroanálisis</span><span data-en>Urinalysis</span></td>
+              <td>31/05/2026</td>
+              <td><span class="badge sent"><span data-es>Enviado</span><span data-en>Sent</span></span></td>
+            </tr>
+            <tr class="clickable">
+              <td><div class="pat-name">Diego Fernando Cruz</div></td>
+              <td><div class="pat-id">#PAT-2026-0282</div></td>
+              <td>IPS Salud Total</td>
+              <td>Hemograma</td>
+              <td>31/05/2026</td>
+              <td><span class="badge sent"><span data-es>Enviado</span><span data-en>Sent</span></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =========== PACIENTE DETALLE =========== -->
+    <section class="app-section app-paciente-detalle">
+      <button class="btn-secondary" type="button" data-goto="app-pacientes" style="margin-bottom:18px;width:auto;padding:0 18px"><span data-es>← Volver a la lista</span><span data-en>← Back to list</span></button>
+
+      <div class="detail-card">
+        <div class="detail-head">
+          <div class="detail-avatar">L</div>
+          <div class="detail-info" style="flex-grow:1">
+            <h2>Laura María González Restrepo</h2>
+            <div class="pat-id">#PAT-2026-0287 · CC 1.034.567.890</div>
+            <div class="detail-meta">
+              <span><span data-es>Edad</span><span data-en>Age</span><strong>36 <span data-es>años</span><span data-en>years</span></strong></span>
+              <span><span data-es>Cliente</span><span data-en>Client</span><strong>Clínica Rosa</strong></span>
+              <span><span data-es>Registrado</span><span data-en>Registered</span><strong>01/06/2026</strong></span>
+            </div>
+          </div>
+          <button class="btn-action" type="button" data-goto="app-resultado">
+            <span data-es>Capturar Resultado</span><span data-en>Capture Result</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <div class="detail-card">
+            <h3 class="h-detail"><span data-es>Información Personal</span><span data-en>Personal Info</span></h3>
+            <div class="info-grid">
+              <div class="info-item"><div class="info-label"><span data-es>Teléfono</span><span data-en>Phone</span></div><div class="info-value">+57 311 555 4438</div></div>
+              <div class="info-item"><div class="info-label"><span data-es>Correo</span><span data-en>Email</span></div><div class="info-value">laura.gonzalez@correo.com</div></div>
+              <div class="info-item"><div class="info-label"><span data-es>Sexo</span><span data-en>Sex</span></div><div class="info-value"><span data-es>Femenino</span><span data-en>Female</span></div></div>
+              <div class="info-item"><div class="info-label"><span data-es>Tipo Sangre</span><span data-en>Blood Type</span></div><div class="info-value">O+</div></div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <h3 class="h-detail"><span data-es>Historial Clínico</span><span data-en>Clinical History</span></h3>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-info">
+                  <div class="history-date">01<span>JUN</span></div>
+                  <div class="history-content">
+                    <h4><span data-es>Hemograma Completo</span><span data-en>Complete Hemogram</span></h4>
+                    <div class="meta"><span data-es>Solicitado por Clínica Rosa · Estado: Enviado</span><span data-en>Requested by Clínica Rosa · Status: Sent</span></div>
+                  </div>
+                </div>
+                <button class="history-pdf">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  PDF
+                </button>
+              </div>
+              <div class="history-item">
+                <div class="history-info">
+                  <div class="history-date">15<span>MAY</span></div>
+                  <div class="history-content">
+                    <h4><span data-es>Perfil Lipídico</span><span data-en>Lipid Profile</span></h4>
+                    <div class="meta"><span data-es>Solicitado por Clínica Rosa · Estado: Enviado</span><span data-en>Requested by Clínica Rosa · Status: Sent</span></div>
+                  </div>
+                </div>
+                <button class="history-pdf">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  PDF
+                </button>
+              </div>
+              <div class="history-item">
+                <div class="history-info">
+                  <div class="history-date">02<span>FEB</span></div>
+                  <div class="history-content">
+                    <h4><span data-es>TSH · Función Tiroidea</span><span data-en>TSH · Thyroid</span></h4>
+                    <div class="meta"><span data-es>Solicitado por Clínica Rosa · Estado: Enviado</span><span data-en>Requested by Clínica Rosa · Status: Sent</span></div>
+                  </div>
+                </div>
+                <button class="history-pdf">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-card">
+            <h3 class="h-detail"><span data-es>Alergias / Notas</span><span data-en>Allergies / Notes</span></h3>
+            <p style="font-size:13px;color:var(--ink-2);line-height:1.65"><span data-es>Sin alergias conocidas. Diabetes tipo II controlada con metformina. Última consulta médica: 15 mayo 2026.</span><span data-en>No known allergies. Type II diabetes controlled with metformin. Last visit: May 15, 2026.</span></p>
+          </div>
+          <div class="detail-card">
+            <h3 class="h-detail"><span data-es>Documentos Adjuntos</span><span data-en>Documents</span></h3>
+            <p style="font-size:13px;color:var(--ink-2);"><span data-es>2 documentos · Última actualización: 01/06/2026</span><span data-en>2 documents · Last update: 06/01/2026</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== RESULTADO + PDF PREVIEW =========== -->
+    <section class="app-section app-resultado">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Captura de <em>Resultado</em></span><span data-en><em>Result</em> Entry</span></h1>
+          <div class="section-sub">Hemograma Completo · Laura González · #PAT-2026-0287</div>
+        </div>
+      </div>
+
+      <div class="split-grid">
+        <div class="result-form">
+          <div class="result-section">
+            <h4><span data-es>Serie Roja</span><span data-en>Red Blood Cells</span></h4>
+            <div class="result-row">
+              <label>Hemoglobina</label>
+              <input type="text" value="13.8">
+              <span class="unit">g/dL</span>
+              <span class="range">12.0 – 16.0</span>
+            </div>
+            <div class="result-row">
+              <label>Hematocrito</label>
+              <input type="text" value="41.2">
+              <span class="unit">%</span>
+              <span class="range">36.0 – 46.0</span>
+            </div>
+            <div class="result-row">
+              <label>Eritrocitos</label>
+              <input type="text" value="4.65">
+              <span class="unit">×10⁶/μL</span>
+              <span class="range">4.0 – 5.4</span>
+            </div>
+            <div class="result-row">
+              <label>VCM</label>
+              <input type="text" value="88.6">
+              <span class="unit">fL</span>
+              <span class="range">80 – 96</span>
+            </div>
+          </div>
+          <div class="result-section">
+            <h4><span data-es>Serie Blanca</span><span data-en>White Blood Cells</span></h4>
+            <div class="result-row">
+              <label>Leucocitos</label>
+              <input type="text" value="12.3" class="alert">
+              <span class="unit">×10³/μL</span>
+              <span class="range flag">↑ 4.5 – 11.0</span>
+            </div>
+            <div class="result-row">
+              <label>Neutrófilos</label>
+              <input type="text" value="68">
+              <span class="unit">%</span>
+              <span class="range">50 – 70</span>
+            </div>
+            <div class="result-row">
+              <label>Linfocitos</label>
+              <input type="text" value="22">
+              <span class="unit">%</span>
+              <span class="range">20 – 40</span>
+            </div>
+          </div>
+          <div class="result-section">
+            <h4><span data-es>Plaquetas</span><span data-en>Platelets</span></h4>
+            <div class="result-row">
+              <label><span data-es>Recuento Plaquetas</span><span data-en>Platelet Count</span></label>
+              <input type="text" value="265">
+              <span class="unit">×10³/μL</span>
+              <span class="range">150 – 450</span>
+            </div>
+          </div>
+          <div class="result-actions">
+            <button class="btn-secondary"><span data-es>Guardar Borrador</span><span data-en>Save Draft</span></button>
+            <button class="btn-primary"><span data-es>Generar PDF + Enviar</span><span data-en>Generate PDF + Send</span></button>
+          </div>
+        </div>
+
+        <div class="pdf-preview">
+          <div class="pdf-preview-head">
+            <h4><span data-es>Vista previa del PDF</span><span data-en>PDF Preview</span></h4>
+            <button class="card-action"><span data-es>Plantilla: Clínica Rosa</span><span data-en>Template: Clínica Rosa</span></button>
+          </div>
+          <div class="pdf-preview-body">
+            <div class="pdf-page">
+              <div class="pdf-page-head">
+                <div class="pdf-logo-client">
+                  <div class="pdf-logo-client-box">CR</div>
+                  <div class="pdf-logo-client-text">Cliente<strong>Clínica Rosa</strong></div>
+                </div>
+                <div class="pdf-laboratory">Procesado en<strong>Xana Lab.</strong></div>
+              </div>
+              <div class="pdf-title"><span data-es>Hemograma Completo</span><span data-en>Complete Hemogram</span></div>
+              <div class="pdf-pat">
+                <span>Paciente: <strong>Laura González R.</strong></span>
+                <span>ID: <strong>1.034.567.890</strong></span>
+                <span><span data-es>Edad</span><span data-en>Age</span>: <strong>36</strong></span>
+                <span><span data-es>Fecha</span><span data-en>Date</span>: <strong>01/06/2026</strong></span>
+              </div>
+              <table class="pdf-table">
+                <thead><tr><th>Parámetro</th><th>Resultado</th><th>Ref.</th></tr></thead>
+                <tbody>
+                  <tr><td>Hemoglobina</td><td>13.8 g/dL</td><td>12.0–16.0</td></tr>
+                  <tr><td>Hematocrito</td><td>41.2 %</td><td>36.0–46.0</td></tr>
+                  <tr><td>Eritrocitos</td><td>4.65 ×10⁶</td><td>4.0–5.4</td></tr>
+                  <tr><td>Leucocitos</td><td class="high">12.3 ×10³ ↑</td><td>4.5–11.0</td></tr>
+                  <tr><td>Plaquetas</td><td>265 ×10³</td><td>150–450</td></tr>
+                </tbody>
+              </table>
+              <div class="pdf-foot">
+                <span>Xana Laboratorio</span>
+                <span><span data-es>Generado automáticamente</span><span data-en>Auto-generated</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== CORREOS =========== -->
+    <section class="app-section app-correos">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Envío de <em>Correos</em></span><span data-en><em>Email</em> Dispatch</span></h1>
+          <div class="section-sub"><span data-es>Plantilla automática según cliente · historial completo</span><span data-en>Auto-template by client · complete history</span></div>
+        </div>
+      </div>
+
+      <div class="email-grid">
+        <div class="email-compose">
+          <h3 class="h-detail" style="margin-bottom:18px"><span data-es>Componer · Listo para enviar</span><span data-en>Compose · Ready to send</span></h3>
+          <div class="field" style="margin-bottom:14px">
+            <label><span data-es>Para</span><span data-en>To</span></label>
+            <input type="email" value="laura.gonzalez@correo.com">
+          </div>
+          <div class="field" style="margin-bottom:14px">
+            <label><span data-es>Plantilla aplicada</span><span data-en>Applied Template</span></label>
+            <input type="text" value="Clínica Rosa · Resultados Generales" readonly style="color:var(--blue);font-weight:600">
+          </div>
+          <div class="field" style="margin-bottom:14px">
+            <label><span data-es>Asunto</span><span data-en>Subject</span></label>
+            <input type="text" value="Sus resultados de Hemograma están listos · Clínica Rosa">
+          </div>
+          <div class="field" style="margin-bottom:14px">
+            <label><span data-es>Mensaje</span><span data-en>Message</span></label>
+            <textarea rows="6">Estimada Laura,
+
+Adjuntamos sus resultados de Hemograma Completo procesados por Xana Laboratorio en convenio con Clínica Rosa.
+
+Cualquier inquietud sobre la interpretación, no dude en consultar con su médico tratante.
+
+Cordialmente,
+Xana Laboratorio Clínico</textarea>
+          </div>
+          <div style="padding:10px;background:var(--green-bg);border-radius:6px;font-size:12px;color:var(--green-d);font-weight:500">
+            📎 Adjunto · Hemograma_Laura_Gonzalez_01062026.pdf
+          </div>
+          <div class="result-actions" style="margin-top:18px;padding-top:18px">
+            <button class="btn-secondary"><span data-es>Programar Envío</span><span data-en>Schedule</span></button>
+            <button class="btn-primary"><span data-es>Enviar Ahora</span><span data-en>Send Now</span></button>
+          </div>
+        </div>
+
+        <div class="email-history">
+          <div class="card-head" style="margin-bottom:18px">
+            <div class="card-title"><span data-es>Historial · Hoy</span><span data-en>History · Today</span></div>
+            <button class="card-action"><span data-es>Ver todo</span><span data-en>See all</span></button>
+          </div>
+          <div class="email-list">
+            <div class="email-item">
+              <div class="email-status"></div>
+              <div class="email-info">
+                <div class="email-to">sofia.castano@correo.com</div>
+                <div class="email-sub"><span data-es>Resultados Uroanálisis · Dr. Ramírez</span><span data-en>Urinalysis Results · Dr. Ramírez</span></div>
+                <div class="email-time"><span>9:42 AM</span><span class="opened">✓ <span data-es>Abierto a las 10:15</span><span data-en>Opened at 10:15</span></span></div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-status"></div>
+              <div class="email-info">
+                <div class="email-to">mateo.ruiz@correo.com</div>
+                <div class="email-sub">Resultados TSH · Clínica Rosa</div>
+                <div class="email-time"><span>9:15 AM</span><span class="opened">✓ <span data-es>Abierto a las 9:23</span><span data-en>Opened at 9:23</span></span></div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-status pending"></div>
+              <div class="email-info">
+                <div class="email-to">carlos.hernandez@correo.com</div>
+                <div class="email-sub"><span data-es>Perfil Lipídico · IPS Salud Total</span><span data-en>Lipid Profile · IPS Salud Total</span></div>
+                <div class="email-time"><span>8:58 AM</span><span><span data-es>Pendiente apertura</span><span data-en>Awaiting open</span></span></div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-status"></div>
+              <div class="email-info">
+                <div class="email-to">diego.cruz@correo.com</div>
+                <div class="email-sub">Hemograma · IPS Salud Total</div>
+                <div class="email-time"><span>8:30 AM</span><span class="opened">✓ <span data-es>Abierto a las 8:35</span><span data-en>Opened at 8:35</span></span></div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-status"></div>
+              <div class="email-info">
+                <div class="email-to">ana.perez@correo.com</div>
+                <div class="email-sub">Glicemia · Centro Médico Vita</div>
+                <div class="email-time"><span>8:12 AM</span><span class="opened">✓</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== CLIENTES =========== -->
+    <section class="app-section app-clientes">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title"><span data-es>Clientes <em>B2B</em></span><span data-en><em>B2B</em> Clients</span></h1>
+          <div class="section-sub"><span data-es>6 clientes activos · cada uno con su plantilla y logo</span><span data-en>6 active clients · each with template and logo</span></div>
+        </div>
+        <button class="btn-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span data-es>Nuevo Cliente</span><span data-en>New Client</span>
+        </button>
+      </div>
+
+      <div class="clients-grid">
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c1">CR</div>
+            <div class="client-info">
+              <div class="client-name">Clínica Rosa</div>
+              <div class="client-type">Bogotá · IPS</div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">342</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">3</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">98%</div><div class="l"><span data-es>SLA</span><span data-en>SLA</span></div></div>
+          </div>
+        </div>
+
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c2">ST</div>
+            <div class="client-info">
+              <div class="client-name">IPS Salud Total</div>
+              <div class="client-type">Medellín · IPS</div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">287</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">2</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">96%</div><div class="l">SLA</div></div>
+          </div>
+        </div>
+
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c3">VT</div>
+            <div class="client-info">
+              <div class="client-name">Centro Médico Vita</div>
+              <div class="client-type">Bogotá · Consultorios</div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">198</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">1</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">99%</div><div class="l">SLA</div></div>
+          </div>
+        </div>
+
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c4">DR</div>
+            <div class="client-info">
+              <div class="client-name">Dr. Ramírez</div>
+              <div class="client-type"><span data-es>Bogotá · Privado</span><span data-en>Bogotá · Private</span></div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">142</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">1</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">100%</div><div class="l">SLA</div></div>
+          </div>
+        </div>
+
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c5">DA</div>
+            <div class="client-info">
+              <div class="client-name">Dra. Acosta</div>
+              <div class="client-type"><span data-es>Cali · Privado</span><span data-en>Cali · Private</span></div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">89</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">0</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">100%</div><div class="l">SLA</div></div>
+          </div>
+        </div>
+
+        <div class="client-card">
+          <div class="client-card-head">
+            <div class="client-logo c6">SC</div>
+            <div class="client-info">
+              <div class="client-name">Saludcoop Cundinamarca</div>
+              <div class="client-type">Cundinamarca · EPS</div>
+            </div>
+          </div>
+          <div class="client-stats">
+            <div class="client-stat"><div class="v">189</div><div class="l"><span data-es>Pacientes</span><span data-en>Patients</span></div></div>
+            <div class="client-stat"><div class="v">0</div><div class="l"><span data-es>Pendientes</span><span data-en>Pending</span></div></div>
+            <div class="client-stat"><div class="v">97%</div><div class="l">SLA</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== PORTAL CLIENTE =========== -->
+    <section class="app-section app-portal-cliente">
+      <div class="portal-welcome">
+        <h2><span data-es>Buen día, <em>Dra. Méndez</em></span><span data-en>Good morning, <em>Dr. Méndez</em></span></h2>
+        <p><span data-es>Aquí están sus pacientes y resultados de Clínica Rosa</span><span data-en>Here are your patients and results from Clínica Rosa</span></p>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric">
+          <div class="metric-label"><span data-es>Pacientes Activos</span><span data-en>Active Patients</span></div>
+          <div class="metric-value">342</div>
+        </div>
+        <div class="metric green">
+          <div class="metric-label"><span data-es>Resultados Listos</span><span data-en>Ready Results</span></div>
+          <div class="metric-value">4</div>
+        </div>
+        <div class="metric amber">
+          <div class="metric-label"><span data-es>En Proceso</span><span data-en>In Process</span></div>
+          <div class="metric-value">3</div>
+        </div>
+        <div class="metric coral">
+          <div class="metric-label"><span data-es>Este Mes</span><span data-en>This Month</span></div>
+          <div class="metric-value">42</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span data-es>Resultados Recientes</span><span data-en>Recent Results</span></div>
+          <button class="btn-action" style="background:var(--green);color:var(--blue-d)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            <span data-es>Registrar Paciente</span><span data-en>Register Patient</span>
+          </button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th><span data-es>Paciente</span><span data-en>Patient</span></th>
+              <th><span data-es>Examen</span><span data-en>Test</span></th>
+              <th><span data-es>Fecha</span><span data-en>Date</span></th>
+              <th><span data-es>Estado</span><span data-en>Status</span></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="pat-name">Laura González R.</div><div class="pat-id">#PAT-2026-0287</div></td>
+              <td><span data-es>Hemograma</span><span data-en>Hemogram</span></td>
+              <td>01/06/2026</td>
+              <td><span class="badge done"><span data-es>Listo</span><span data-en>Ready</span></span></td>
+              <td><button class="history-pdf"><span data-es>Descargar</span><span data-en>Download</span></button></td>
+            </tr>
+            <tr>
+              <td><div class="pat-name">Mateo Ruiz S.</div><div class="pat-id">#PAT-2026-0284</div></td>
+              <td>TSH</td>
+              <td>31/05/2026</td>
+              <td><span class="badge done"><span data-es>Listo</span><span data-en>Ready</span></span></td>
+              <td><button class="history-pdf"><span data-es>Descargar</span><span data-en>Download</span></button></td>
+            </tr>
+            <tr>
+              <td><div class="pat-name">Carolina Mejía B.</div><div class="pat-id">#PAT-2026-0278</div></td>
+              <td><span data-es>Perfil Lipídico</span><span data-en>Lipid Profile</span></td>
+              <td>29/05/2026</td>
+              <td><span class="badge process"><span data-es>En Proceso</span><span data-en>In Process</span></span></td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function setLang(lang){
+  document.body.dataset.lang = lang;
+  document.querySelectorAll('.app-lang button, .lang-toggle button').forEach(function(b){
+    b.classList.toggle('active', b.dataset.langSet === lang);
+  });
+  try { localStorage.setItem('xana.lang', lang); } catch(e) {}
+}
+function setView(view){
+  if(!view) return;
+  document.body.dataset.view = view;
+  document.querySelectorAll('.sidebar-link[data-app-section]').forEach(function(b){ b.classList.remove('active'); });
+  var section = view.replace('app-','').replace('-detalle','');
+  var sidebarMap = {'dashboard':'dashboard','pacientes':'pacientes','paciente':'pacientes','resultado':'resultado','correos':'correos','clientes':'clientes'};
+  var sidebarKey = sidebarMap[section] || section;
+  var activeBtn = document.querySelector('.sidebar-link[data-app-section="'+sidebarKey+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  var scrollTarget = document.querySelector('.app-main');
+  if(scrollTarget) scrollTarget.scrollTop = 0;
+  window.scrollTo(0,0);
+}
+
+// Event delegation · cualquier click en elementos con data-goto
+document.addEventListener('click', function(e){
+  var gotoEl = e.target.closest('[data-goto]');
+  if(gotoEl){
+    e.preventDefault();
+    setView(gotoEl.dataset.goto);
+    return;
+  }
+  var langBtn = e.target.closest('[data-lang-set]');
+  if(langBtn){ e.preventDefault(); setLang(langBtn.dataset.langSet); }
+});
+
+try { var savedLang = localStorage.getItem('xana.lang'); if(savedLang) setLang(savedLang); } catch(e) {}
+</script>
+</body>
+</html>
