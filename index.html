@@ -844,9 +844,9 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
       <div class="app-actions">
         <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></button>
         <div class="app-lang">
-          <button data-lang-set="es" class="active">ES</button>
+          <button onclick="setLang('es')" class="active">ES</button>
           <span style="color:var(--muted);align-self:center">·</span>
-          <button data-lang-set="en">EN</button>
+          <button onclick="setLang('en')">EN</button>
         </div>
       </div>
     </header>
@@ -1544,34 +1544,8 @@ Xana Laboratorio Clínico</textarea>
 </div>
 
 <script>
-window.setLang = function(lang){
-  document.body.dataset.lang = lang;
-  document.querySelectorAll('.app-lang button, .lang-toggle button').forEach(function(b){
-    b.classList.toggle('active', b.dataset.langSet === lang);
-  });
-  try { localStorage.setItem('xana.lang', lang); } catch(e) {}
-};
-window.setView = function(view){
-  if(!view) return;
-  document.body.dataset.view = view;
-  document.querySelectorAll('.sidebar-link[data-app-section]').forEach(function(b){ b.classList.remove('active'); });
-  var section = view.replace('app-','').replace('-detalle','');
-  var sidebarMap = {'dashboard':'dashboard','pacientes':'pacientes','paciente':'pacientes','resultado':'resultado','correos':'correos','clientes':'clientes'};
-  var sidebarKey = sidebarMap[section] || section;
-  var activeBtn = document.querySelector('.sidebar-link[data-app-section="'+sidebarKey+'"]');
-  if(activeBtn) activeBtn.classList.add('active');
-  var scrollTarget = document.querySelector('.app-main');
-  if(scrollTarget) scrollTarget.scrollTop = 0;
-  window.scrollTo(0,0);
-};
-
-// Solo manejo de idioma con event delegation
-document.addEventListener('click', function(e){
-  var langBtn = e.target.closest('[data-lang-set]');
-  if(langBtn){ e.preventDefault(); setLang(langBtn.dataset.langSet); }
-});
-
-try { var savedLang = localStorage.getItem('xana.lang'); if(savedLang) setLang(savedLang); } catch(e) {}
+function setView(v){ document.body.setAttribute('data-view', v); window.scrollTo(0,0); }
+function setLang(l){ document.body.setAttribute('data-lang', l); }
 </script>
 </body>
 </html>
