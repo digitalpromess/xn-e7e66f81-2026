@@ -607,6 +607,91 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
   padding-top:20px;border-top:1px solid var(--line);
 }
 
+/* === TEMPLATE TABS · plantillas por cliente === */
+.tpl-tabs{display:flex;gap:0;padding:0 14px;background:#F2F4F7;border-bottom:1px solid var(--line);overflow-x:auto}
+.tpl-tab{
+  background:none;border:none;padding:11px 14px;font-size:11px;letter-spacing:.04em;
+  font-weight:600;color:#6E7F94;cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:all .2s;
+}
+.tpl-tab:hover{color:#1F3552}
+.tpl-tab.active{color:#1F3552;border-bottom-color:#3A6FA8;background:#fff}
+
+.tpl-page{display:none}
+.tpl-page.active{display:block}
+
+.pdf-tpl-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:12px;margin-bottom:0;
+}
+.pdf-tpl-logo-l,.pdf-tpl-logo-r{display:flex;align-items:center;gap:9px}
+.pdf-tpl-logo-r{text-align:right}
+.pdf-tpl-logobox{
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:17px;font-weight:600;border-radius:5px;flex-shrink:0;
+}
+.pdf-tpl-xana-dot{
+  width:36px;height:36px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#FFF,#6E9CCC);
+  color:#A8C854;display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:bold;font-style:italic;
+}
+.pdf-tpl-logo-l div:last-child strong,
+.pdf-tpl-logo-r div:last-child strong{
+  display:block;font-family:'DM Serif Display',serif;font-size:13px;color:#1F3552;font-weight:400;line-height:1.1;
+}
+.pdf-tpl-logo-l div:last-child small,
+.pdf-tpl-logo-r div:last-child small{
+  display:block;font-size:9px;color:#9D9085;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-top:2px;
+}
+.pdf-tpl-band{height:3px;margin-bottom:16px}
+.pdf-tpl-title{
+  font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;font-style:italic;
+  text-align:center;margin-bottom:14px;color:#1F3552;
+}
+.pdf-tpl-pat{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;
+  padding:11px 14px;border-radius:4px;margin-bottom:16px;font-size:10px;
+}
+.pdf-tpl-pat div small{display:block;color:#9D9085;font-weight:600;letter-spacing:.06em;font-size:8.5px;text-transform:uppercase}
+.pdf-tpl-pat div strong{color:#1F3552;font-weight:600;font-size:11px}
+.pdf-tpl-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:14px}
+.pdf-tpl-table th{padding:7px 9px;text-align:left;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#fff}
+.pdf-tpl-table td{padding:7px 9px;border-bottom:1px solid #E8EAEC;color:#3C5670}
+.pdf-tpl-table td.high{font-weight:700}
+.pdf-tpl-foot{
+  padding-top:11px;border-top:1px solid #E8EAEC;font-size:8.5px;color:#9D9085;
+  display:flex;justify-content:space-between;align-items:center;font-weight:500;
+}
+
+/* PLANTILLA: ROSA / CLÍNICA ROSA */
+.tpl-rosa .pdf-tpl-logobox{background:linear-gradient(135deg,#FCD8E5,#F89BB8);color:#A1244B}
+.tpl-rosa .pdf-tpl-band{background:linear-gradient(90deg,#F89BB8 0%, #C8527A 100%)}
+.tpl-rosa .pdf-tpl-pat{background:#FDF2F5}
+.tpl-rosa .pdf-tpl-table th{background:#A1244B}
+.tpl-rosa .pdf-tpl-table td.high{color:#A1244B}
+
+/* PLANTILLA: AZUL / IPS SALUD TOTAL */
+.tpl-azul .pdf-tpl-logobox{background:linear-gradient(135deg,#D8E5FC,#9BB8F8);color:#244BA1}
+.tpl-azul .pdf-tpl-band{background:linear-gradient(90deg,#9BB8F8 0%, #527AC8 100%)}
+.tpl-azul .pdf-tpl-pat{background:#F2F5FD}
+.tpl-azul .pdf-tpl-table th{background:#244BA1}
+.tpl-azul .pdf-tpl-table td.high{color:#C8323E}
+
+/* PLANTILLA: VERDE / CENTRO MÉDICO VITA */
+.tpl-verde .pdf-tpl-logobox{background:linear-gradient(135deg,#D8FCE5,#9BF8B8);color:#24A14B}
+.tpl-verde .pdf-tpl-band{background:linear-gradient(90deg,#9BF8B8 0%, #52C87A 100%)}
+.tpl-verde .pdf-tpl-pat{background:#F2FDF5}
+.tpl-verde .pdf-tpl-table th{background:#24A14B}
+.tpl-verde .pdf-tpl-table td.high{color:#C8323E}
+
+/* PLANTILLA: NARANJA / DR. RAMÍREZ */
+.tpl-naranja .pdf-tpl-logobox{background:linear-gradient(135deg,#FCE5D8,#F8B89B);color:#A14B24}
+.tpl-naranja .pdf-tpl-band{background:linear-gradient(90deg,#F8B89B 0%, #C8527A 30%, #C87A52 100%)}
+.tpl-naranja .pdf-tpl-pat{background:#FDF5F2}
+.tpl-naranja .pdf-tpl-table th{background:#A14B24}
+.tpl-naranja .pdf-tpl-table td.high{color:#A14B24}
+
 @media (max-width: 920px){
   .sidebar-admin,.sidebar-client{width:64px}
   .sidebar-brand-text,.sidebar-section,.sidebar-link span,.sidebar-foot-info{display:none}
@@ -782,10 +867,10 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
     </nav>
 
     <div class="sidebar-foot">
-      <div class="sidebar-foot-avatar">M</div>
+      <div class="sidebar-foot-avatar">X</div>
       <div class="sidebar-foot-info">
-        <div class="sidebar-foot-name">María Vega</div>
-        <div class="sidebar-foot-role"><span data-es>Admin</span><span data-en>Admin</span></div>
+        <div class="sidebar-foot-name"><span data-es>Admin Xana</span><span data-en>Xana Admin</span></div>
+        <div class="sidebar-foot-role"><span data-es>Bogotá</span><span data-en>Bogotá</span></div>
       </div>
       <button type="button" onclick="setView('login')" title="Salir">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
@@ -855,7 +940,7 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
     <section class="app-section app-dashboard">
       <div class="section-head">
         <div>
-          <h1 class="section-title"><span data-es>Buen día, <em>María</em></span><span data-en>Good morning, <em>María</em></span></h1>
+          <h1 class="section-title"><span data-es>Buen día, <em>Xana</em></span><span data-en>Good morning, <em>Xana</em></span></h1>
           <div class="section-sub"><span data-es>Esto es lo que está pendiente hoy</span><span data-en>Here's today's pending work</span></div>
         </div>
         <button class="btn-action">
@@ -1230,39 +1315,144 @@ body:not([data-view="portal-cliente"]) .sidebar-client{display:none}
         <div class="pdf-preview">
           <div class="pdf-preview-head">
             <h4><span data-es>Vista previa del PDF</span><span data-en>PDF Preview</span></h4>
-            <button class="card-action"><span data-es>Plantilla: Clínica Rosa</span><span data-en>Template: Clínica Rosa</span></button>
+            <span style="font-size:11px;color:#5C6B79;letter-spacing:.04em">← <span data-es>cambia cliente para ver plantilla</span><span data-en>change client to see template</span></span>
+          </div>
+          <div class="tpl-tabs">
+            <button class="tpl-tab active" onclick="setTpl(event,'rosa')">Clínica Rosa</button>
+            <button class="tpl-tab" onclick="setTpl(event,'azul')">IPS Salud Total</button>
+            <button class="tpl-tab" onclick="setTpl(event,'verde')">Centro Vita</button>
+            <button class="tpl-tab" onclick="setTpl(event,'naranja')">Dr. Ramírez</button>
           </div>
           <div class="pdf-preview-body">
-            <div class="pdf-page">
-              <div class="pdf-page-head">
-                <div class="pdf-logo-client">
-                  <div class="pdf-logo-client-box">CR</div>
-                  <div class="pdf-logo-client-text">Cliente<strong>Clínica Rosa</strong></div>
+
+            <!-- Plantilla: Clínica Rosa -->
+            <div class="pdf-page tpl-page tpl-rosa active">
+              <div class="pdf-tpl-head">
+                <div class="pdf-tpl-logo-l">
+                  <div class="pdf-tpl-logobox">CR</div>
+                  <div><strong>Clínica Rosa</strong><small>Bogotá · IPS Premium</small></div>
                 </div>
-                <div class="pdf-laboratory">Procesado en<strong>Xana Lab.</strong></div>
+                <div class="pdf-tpl-logo-r">
+                  <div class="pdf-tpl-xana-dot">x</div>
+                  <div><small>Procesado por</small><strong>Xana Lab.</strong></div>
+                </div>
               </div>
-              <div class="pdf-title"><span data-es>Hemograma Completo</span><span data-en>Complete Hemogram</span></div>
-              <div class="pdf-pat">
-                <span>Paciente: <strong>Laura González R.</strong></span>
-                <span>ID: <strong>1.034.567.890</strong></span>
-                <span><span data-es>Edad</span><span data-en>Age</span>: <strong>36</strong></span>
-                <span><span data-es>Fecha</span><span data-en>Date</span>: <strong>01/06/2026</strong></span>
+              <div class="pdf-tpl-band"></div>
+              <div class="pdf-tpl-title">Hemograma Completo</div>
+              <div class="pdf-tpl-pat">
+                <div><small>Paciente</small><strong>Laura González R.</strong></div>
+                <div><small>ID</small><strong>1.034.567.890</strong></div>
+                <div><small>Edad</small><strong>36 años</strong></div>
+                <div><small>Fecha</small><strong>01/06/2026</strong></div>
               </div>
-              <table class="pdf-table">
+              <table class="pdf-tpl-table">
                 <thead><tr><th>Parámetro</th><th>Resultado</th><th>Ref.</th></tr></thead>
                 <tbody>
                   <tr><td>Hemoglobina</td><td>13.8 g/dL</td><td>12.0–16.0</td></tr>
                   <tr><td>Hematocrito</td><td>41.2 %</td><td>36.0–46.0</td></tr>
-                  <tr><td>Eritrocitos</td><td>4.65 ×10⁶</td><td>4.0–5.4</td></tr>
-                  <tr><td>Leucocitos</td><td class="high">12.3 ×10³ ↑</td><td>4.5–11.0</td></tr>
-                  <tr><td>Plaquetas</td><td>265 ×10³</td><td>150–450</td></tr>
+                  <tr><td>Leucocitos</td><td class="high">12.3 ↑</td><td>4.5–11.0</td></tr>
+                  <tr><td>Plaquetas</td><td>265</td><td>150–450</td></tr>
                 </tbody>
               </table>
-              <div class="pdf-foot">
-                <span>Xana Laboratorio</span>
-                <span><span data-es>Generado automáticamente</span><span data-en>Auto-generated</span></span>
-              </div>
+              <div class="pdf-tpl-foot"><span>Xana Laboratorio · NIT 900.123.456</span><span>Generado automáticamente</span></div>
             </div>
+
+            <!-- Plantilla: IPS Salud Total (azul) -->
+            <div class="pdf-page tpl-page tpl-azul">
+              <div class="pdf-tpl-head">
+                <div class="pdf-tpl-logo-l">
+                  <div class="pdf-tpl-logobox">ST</div>
+                  <div><strong>IPS Salud Total</strong><small>Medellín · EPS</small></div>
+                </div>
+                <div class="pdf-tpl-logo-r">
+                  <div class="pdf-tpl-xana-dot">x</div>
+                  <div><small>Procesado por</small><strong>Xana Lab.</strong></div>
+                </div>
+              </div>
+              <div class="pdf-tpl-band"></div>
+              <div class="pdf-tpl-title">Hemograma Completo</div>
+              <div class="pdf-tpl-pat">
+                <div><small>Paciente</small><strong>Laura González R.</strong></div>
+                <div><small>ID</small><strong>1.034.567.890</strong></div>
+                <div><small>Edad</small><strong>36 años</strong></div>
+                <div><small>Fecha</small><strong>01/06/2026</strong></div>
+              </div>
+              <table class="pdf-tpl-table">
+                <thead><tr><th>Parámetro</th><th>Resultado</th><th>Ref.</th></tr></thead>
+                <tbody>
+                  <tr><td>Hemoglobina</td><td>13.8 g/dL</td><td>12.0–16.0</td></tr>
+                  <tr><td>Hematocrito</td><td>41.2 %</td><td>36.0–46.0</td></tr>
+                  <tr><td>Leucocitos</td><td class="high">12.3 ↑</td><td>4.5–11.0</td></tr>
+                  <tr><td>Plaquetas</td><td>265</td><td>150–450</td></tr>
+                </tbody>
+              </table>
+              <div class="pdf-tpl-foot"><span>Xana Laboratorio · NIT 900.123.456</span><span>Generado automáticamente</span></div>
+            </div>
+
+            <!-- Plantilla: Centro Médico Vita (verde) -->
+            <div class="pdf-page tpl-page tpl-verde">
+              <div class="pdf-tpl-head">
+                <div class="pdf-tpl-logo-l">
+                  <div class="pdf-tpl-logobox">VT</div>
+                  <div><strong>Centro Médico Vita</strong><small>Bogotá · Consultorios</small></div>
+                </div>
+                <div class="pdf-tpl-logo-r">
+                  <div class="pdf-tpl-xana-dot">x</div>
+                  <div><small>Procesado por</small><strong>Xana Lab.</strong></div>
+                </div>
+              </div>
+              <div class="pdf-tpl-band"></div>
+              <div class="pdf-tpl-title">Hemograma Completo</div>
+              <div class="pdf-tpl-pat">
+                <div><small>Paciente</small><strong>Laura González R.</strong></div>
+                <div><small>ID</small><strong>1.034.567.890</strong></div>
+                <div><small>Edad</small><strong>36 años</strong></div>
+                <div><small>Fecha</small><strong>01/06/2026</strong></div>
+              </div>
+              <table class="pdf-tpl-table">
+                <thead><tr><th>Parámetro</th><th>Resultado</th><th>Ref.</th></tr></thead>
+                <tbody>
+                  <tr><td>Hemoglobina</td><td>13.8 g/dL</td><td>12.0–16.0</td></tr>
+                  <tr><td>Hematocrito</td><td>41.2 %</td><td>36.0–46.0</td></tr>
+                  <tr><td>Leucocitos</td><td class="high">12.3 ↑</td><td>4.5–11.0</td></tr>
+                  <tr><td>Plaquetas</td><td>265</td><td>150–450</td></tr>
+                </tbody>
+              </table>
+              <div class="pdf-tpl-foot"><span>Xana Laboratorio · NIT 900.123.456</span><span>Generado automáticamente</span></div>
+            </div>
+
+            <!-- Plantilla: Dr. Ramírez (naranja) -->
+            <div class="pdf-page tpl-page tpl-naranja">
+              <div class="pdf-tpl-head">
+                <div class="pdf-tpl-logo-l">
+                  <div class="pdf-tpl-logobox">DR</div>
+                  <div><strong>Dr. Ramírez</strong><small>Consultorio Privado</small></div>
+                </div>
+                <div class="pdf-tpl-logo-r">
+                  <div class="pdf-tpl-xana-dot">x</div>
+                  <div><small>Procesado por</small><strong>Xana Lab.</strong></div>
+                </div>
+              </div>
+              <div class="pdf-tpl-band"></div>
+              <div class="pdf-tpl-title">Hemograma Completo</div>
+              <div class="pdf-tpl-pat">
+                <div><small>Paciente</small><strong>Laura González R.</strong></div>
+                <div><small>ID</small><strong>1.034.567.890</strong></div>
+                <div><small>Edad</small><strong>36 años</strong></div>
+                <div><small>Fecha</small><strong>01/06/2026</strong></div>
+              </div>
+              <table class="pdf-tpl-table">
+                <thead><tr><th>Parámetro</th><th>Resultado</th><th>Ref.</th></tr></thead>
+                <tbody>
+                  <tr><td>Hemoglobina</td><td>13.8 g/dL</td><td>12.0–16.0</td></tr>
+                  <tr><td>Hematocrito</td><td>41.2 %</td><td>36.0–46.0</td></tr>
+                  <tr><td>Leucocitos</td><td class="high">12.3 ↑</td><td>4.5–11.0</td></tr>
+                  <tr><td>Plaquetas</td><td>265</td><td>150–450</td></tr>
+                </tbody>
+              </table>
+              <div class="pdf-tpl-foot"><span>Xana Laboratorio · NIT 900.123.456</span><span>Generado automáticamente</span></div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1546,6 +1736,15 @@ Xana Laboratorio Clínico</textarea>
 <script>
 function setView(v){ document.body.setAttribute('data-view', v); window.scrollTo(0,0); }
 function setLang(l){ document.body.setAttribute('data-lang', l); }
+function setTpl(e, t){
+  var tabs = document.querySelectorAll('.tpl-tab');
+  for(var i=0;i<tabs.length;i++){ tabs[i].classList.remove('active'); }
+  e.target.classList.add('active');
+  var pages = document.querySelectorAll('.tpl-page');
+  for(var j=0;j<pages.length;j++){ pages[j].classList.remove('active'); }
+  var sel = document.querySelector('.tpl-'+t);
+  if(sel) sel.classList.add('active');
+}
 </script>
 </body>
 </html>
