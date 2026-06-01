@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test · Xana</title>
+<style>
+  body{font-family:-apple-system,sans-serif;padding:40px;max-width:600px;margin:0 auto;background:#FAFCFE;color:#1F3552}
+  h1{font-size:24px;margin-bottom:8px}
+  p{color:#5C6B79;margin-bottom:20px;line-height:1.5}
+  button{display:block;width:100%;padding:18px;margin:14px 0;font-size:15px;font-weight:600;cursor:pointer;border-radius:8px;border:none}
+  .b1{background:#3A6FA8;color:white}
+  .b2{background:#A8C854;color:#2A5285}
+  .result{padding:16px;margin-top:24px;border-radius:8px;background:white;border:1px solid #E0E6EB;font-size:14px}
+  .ok{color:#2D6F4E;font-weight:600}
+  .fail{color:#C85F4B;font-weight:600}
+</style>
+</head>
+<body>
+  <h1>Test rápido · ¿funciona JavaScript?</h1>
+  <p>Haz clic en cada botón y dime qué pasa:</p>
+
+  <button class="b1" onclick="alert('JS funciona ✓')">PRUEBA 1 · Mostrar alerta</button>
+  <button class="b2" onclick="document.getElementById('out').innerHTML='<span class=ok>✓ JS funciona y puedo cambiar elementos</span>'">PRUEBA 2 · Cambiar texto abajo</button>
+  <button class="b1" onclick="window.location.href='index.html'">PRUEBA 3 · Ir a la página principal (login)</button>
+
+  <div class="result" id="out">Antes de hacer clic · este texto debe cambiar al presionar la prueba 2</div>
+
+  <noscript>
+    <div class="result fail">⚠ JavaScript está deshabilitado en tu navegador. Por eso nada funciona.</div>
+  </noscript>
+</body>
+</html>
